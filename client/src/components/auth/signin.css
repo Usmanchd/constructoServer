@@ -15,7 +15,7 @@ select {
   display: flex;
   justify-content: center;
   align-items: center;
-  sheight: 100vh;
+  height: 100vh;
   background-color: #1e1e28;
   width: 100%;
 }
