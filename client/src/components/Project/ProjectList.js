@@ -6,6 +6,9 @@ import { Redirect, Link } from 'react-router-dom';
 
 import ClipLoader from 'react-spinners/ClipLoader';
 
+import { Icon } from 'react-icons-kit';
+import { ic_lens } from 'react-icons-kit/md/ic_lens';
+
 import { getAllProjects } from '../../store/actions/projectActions';
 import './project.css';
 
@@ -109,7 +112,23 @@ class ProjectList extends Component {
                   className="project-main-subdetails"
                   style={{ margin: '5px 0px' }}
                 >
-                  <span>{project.name}</span>
+                  <span
+                    style={{
+                      display: 'flex',
+
+                      alignItems: 'center'
+                    }}
+                  >
+                    <div
+                      style={{
+                        color: project.active ? '	green' : '#FFFF00',
+                        margin: '0 4px 3px 0'
+                      }}
+                    >
+                      <Icon size={12} icon={ic_lens} />
+                    </div>
+                    {project.name}
+                  </span>
                   <span>{project.street}</span>
                   <span>{project.city}</span>
                   <Link to={`project-details/${project.ID}`}>
