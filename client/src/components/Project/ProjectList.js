@@ -121,7 +121,7 @@ class ProjectList extends Component {
                   >
                     <div
                       style={{
-                        color: project.active ? '	green' : '#FFFF00',
+                        color: project.active ? 'green' : '#FFFF00',
                         margin: '0 4px 3px 0'
                       }}
                     >
