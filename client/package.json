@@ -1,12 +1,6 @@
 {
-  "homepage": "http://usmanchd.github.io/constructo",
   "name": "constructo",
   "version": "0.1.0",
-  "private": true,
-  "engines": {
-    "npm": "6.9.0",
-    "node": "10.16.3"
-  },
   "dependencies": {
     "@firebase/analytics": "^0.2.18",
     "axios": "^0.19.2",
