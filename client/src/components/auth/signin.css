@@ -1,0 +1,163 @@
+:root {
+  --main-logo-color: #fbd800;
+}
+* {
+  font-family: 'Poppins', sans-serif;
+}
+
+input,
+textarea,
+select {
+  font-family: 'Poppins', sans-serif;
+}
+
+.mycontainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  sheight: 100vh;
+  background-color: #1e1e28;
+  width: 100%;
+}
+.mycontainer1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #1e1e28;
+  width: 100%;
+}
+
+#regform {
+  padding: 10px 20px;
+  /* margin-top: 60px; */
+  width: 360px;
+  background-color: #282832 !important;
+  color: white;
+}
+
+/* form button,
+form h5 {
+  
+} */
+
+#regform input[type='text'],
+#regform input[type='email'],
+#regform input[type='password'],
+textarea.materialize-textarea {
+  color: white !important;
+  /* border-right: 1px solid #9c9c9d !important;
+  padding: 0 2px !important;
+  border-radius: 0px 20px 20px 0px !important;
+  transition: all 0.3s linear 0s !important; */
+}
+#regform input[type='text']:not(.browser-default):focus:not([readonly]),
+#regform input[type='email']:not(.browser-default):focus:not([readonly]),
+#regform input[type='password']:not(.browser-default):focus:not([readonly]),
+#regform textarea.materialize-textarea:focus:not([readonly]) {
+  color: white !important;
+  border-color: var(--main-logo-color);
+  box-shadow: none;
+  /* border: none !important;
+  border-radius: 0px !important;
+  border-bottom: 1px solid var(--main-logo-color) !important; */
+}
+
+#regform input[type='text']:not(.browser-default):focus:not([readonly]) + label,
+#regform textarea.materialize-textarea:focus:not([readonly]) + label,
+#regform
+  input[type='email']:not(.browser-default):focus:not([readonly])
+  + label,
+#regform
+  input[type='password']:not(.browser-default):focus:not([readonly])
+  + label {
+  background-color: transparent !important;
+  color: #ec407a !important;
+}
+#regform label {
+  color: white !important;
+}
+#regform input:-webkit-autofill,
+#regform input:-webkit-autofill:hover,
+#regform input:-webkit-autofill:focus,
+#regform textarea:-webkit-autofill,
+#regform textarea:-webkit-autofill:hover,
+#regform textarea:-webkit-autofill:focus {
+  color: white !important;
+  -webkit-text-fill-color: white;
+  box-shadow: 0 0 0px 1000px #282832 inset !important;
+  transition: background-color 5000s ease-in-out 0s !important;
+  -webkit-box-shadow: 0 0 0px 1000px #282832 inset !important;
+  transition: background-color 5000s ease-in-out 0s !important;
+}
+
+.label-low {
+  padding: 0px;
+  margin: 0px;
+  color: #44494d;
+}
+
+.mybtn {
+  width: 50%;
+  margin: 10px 75px !important;
+  background-color: none !important;
+  border: 1px solid var(--main-logo-color) !important;
+  border-radius: 5px;
+}
+.mybtn:hover {
+  background-color: var(--main-logo-color) !important;
+  color: black;
+}
+.mybtn1 {
+  width: 30%;
+  margin: 10px 155px !important;
+  background-color: none !important;
+  border: 1px solid var(--main-logo-color) !important;
+  border-radius: 5px;
+}
+
+.mybtn1:hover {
+  background-color: var(--main-logo-color) !important;
+  color: black;
+}
+
+.form-ele {
+  display: flex;
+}
+
+@media only screen and (max-width: 600px) {
+  .form-ele {
+    flex-direction: column;
+  }
+  .mycontainer {
+    background-color: #1e1e28;
+    width: 100vw;
+    height: 100vh;
+    margin: 0px;
+  }
+  .mycontainer1 {
+    background-color: #1e1e28;
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+  }
+  #regform {
+    /* padding: 10px 20px; */
+    /* margin-top: 60px; */
+    width: 85vw !important;
+    background-color: #282832 !important;
+    color: white;
+  }
+  .mybtn1 {
+    width: 30%;
+    margin: 10px 125px !important;
+    background-color: none !important;
+    border: 1px solid var(--main-logo-color) !important;
+    border-radius: 5px;
+  }
+}
+
+.right li a:hover {
+  background-color: var(--main-logo-color) !important;
+  color: black !important;
+}
