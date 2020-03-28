@@ -177,13 +177,18 @@ textarea.materialize-textarea {
   /* * {
     font-size: 16px;
   } */
-
+  .project-main-home {
+    margin: 0 20px;
+  }
   .details-grid-wrapper {
     display: block;
     /* grid-template-columns: 1fr;
     grid-gap: 10px; */
     width: 60%;
     margin: auto;
+  }
+  .dashboard {
+    width: 90%;
   }
   .det-form {
     margin: 0px;
@@ -197,6 +202,15 @@ textarea.materialize-textarea {
 @media only screen and (max-width: 700px) {
   * {
     font-size: 12px;
+  }
+  button {
+    padding: 0px 10px !important;
+    font-size: 10px !important;
+    height: 35px !important;
+    line-height: 0px !important;
+  }
+  .project-main-home {
+    margin: 0;
   }
 
   .details-grid-wrapper {
