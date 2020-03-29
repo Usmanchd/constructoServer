@@ -31,7 +31,7 @@ class ProjectList extends Component {
     if (this.props.profile.ID === undefined) {
       setTimeout(() => {
         this.getProject();
-      }, 1000);
+      }, 100);
     } else {
       this.props.getAllProjects(this.props.profile.ID);
     }
@@ -101,6 +101,7 @@ class ProjectList extends Component {
                 <option value="inactive">Inactive</option>
               </select>
             </div>
+
             {!this.props.projects[0] && (
               <div className="project-main-subdetails">
                 <h5>No Record Found!</h5>
