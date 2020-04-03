@@ -1,4 +1,4 @@
-export const signIn = credentials => {
+export const signIn = (credentials) => {
   return (dispatch, getState, { getFirebase }) => {
     if (
       credentials.email === '' ||
@@ -18,7 +18,7 @@ export const signIn = credentials => {
         .then(() => {
           dispatch({ type: 'LOGIN_SUCCESS' });
         })
-        .catch(err => {
+        .catch((err) => {
           dispatch({ type: 'LOGIN_ERROR', payload: err });
           setTimeout(() => dispatch({ type: 'REMOVE_ERR' }), 3000);
         });
@@ -40,7 +40,7 @@ export const signOut = () => {
   };
 };
 
-export const signUp = newUser => {
+export const signUp = (newUser) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     dispatch(loading());
     const firebase = getFirebase();
@@ -49,7 +49,7 @@ export const signUp = newUser => {
     firebase
       .auth()
       .createUserWithEmailAndPassword(newUser.email, newUser.password)
-      .then(resp => {
+      .then((resp) => {
         return firestore
           .collection('users')
           .doc(resp.user.uid)
@@ -64,13 +64,14 @@ export const signUp = newUser => {
             avatarURL: newUser.avatarURL,
             deleted: false,
             projects: [],
-            createdAt: Date.now()
+            project: '',
+            createdAt: Date.now(),
           });
       })
       .then(() => {
         dispatch({ type: 'SIGNUP_SUCCESS' });
       })
-      .catch(err => {
+      .catch((err) => {
         dispatch({ type: 'SIGNUP_ERROR', payload: err });
 
         setTimeout(() => dispatch({ type: 'REMOVE_ERR' }), 2000);
@@ -83,8 +84,8 @@ export const getAllUsers = () => (dispatch, getState, { getFirestore }) => {
   firestore
     .collection('users')
     .get()
-    .then(_users => {
-      const users = _users.docs.map(doc => doc.data());
+    .then((_users) => {
+      const users = _users.docs.map((doc) => doc.data());
       dispatch({ type: 'GET_ALL_USERS', payload: users });
     });
 };
@@ -93,7 +94,11 @@ export const loading = () => (dispatch, getState, { getFirestore }) => {
   dispatch({ type: 'LOADING' });
 };
 
-export const handleTempEP = temp => (dispatch, getState, { getFirestore }) => {
+export const handleTempEP = (temp) => (
+  dispatch,
+  getState,
+  { getFirestore }
+) => {
   const { email, password } = temp;
   if (email === '' || password === '' || password.length <= 5) {
     let err = { message: 'Password Must be 6 characters Long' };
@@ -106,9 +111,9 @@ export const handleTempEP = temp => (dispatch, getState, { getFirestore }) => {
       firestore
         .collection('users')
         .get()
-        .then(_users => {
-          const users = _users.docs.map(doc => doc.data());
-          const user = users.filter(_u => _u.email === email);
+        .then((_users) => {
+          const users = _users.docs.map((doc) => doc.data());
+          const user = users.filter((_u) => _u.email === email);
 
           if (user.length === 0) dispatch({ type: 'TEMP_E_P', payload: temp });
           else {

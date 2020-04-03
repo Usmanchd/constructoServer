@@ -28,7 +28,7 @@ class Project extends Component {
   render() {
     const { auth, profile, loading } = this.props;
     if (!auth.uid) return <Redirect to="/signin" />;
-
+    console.log(this.props.project);
     if (loading || profile.isEmpty) {
       return (
         <div
@@ -36,7 +36,7 @@ class Project extends Component {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            height: '100vh'
+            height: '100vh',
           }}
         >
           <ClipLoader
@@ -60,7 +60,7 @@ class Project extends Component {
             <div className="project-main-heading">
               <h4>Current Project Info</h4>
             </div>
-            {this.props.project ? (
+            {Object.keys(this.props.project).length !== 0 ? (
               <div className="project-main-subdetails">
                 <span>{this.props.project.name}</span>
                 <span>{this.props.project.street}</span>
@@ -80,12 +80,12 @@ class Project extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth,
-    project: state.project.projects[0],
+    project: state.project.currentProject,
     profile: state.firebase.profile,
-    loading: state.project.loading
+    loading: state.project.loading,
   };
 };
 

@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
-export const createProject = _newProject => async (
+export const createProject = (_newProject) => async (
   dispatch,
   getState,
   { getFirestore }
@@ -28,43 +28,64 @@ export const createProject = _newProject => async (
     subscriptionPlanValidUntil: null,
     legacy: null,
     legacyId: null,
-    legacyContent: null
+    legacyContent: null,
   };
   await firestore.collection('projects').add(newProject);
 
   await firestore
     .collection('users')
-    .where('ID', '==', newProject.projectCreator)
+    .where('ID', '==', newProject.userID)
     .get()
-    .then(function(querySnapshot) {
-      querySnapshot.forEach(function(doc) {
+    .then(function (querySnapshot) {
+      querySnapshot.forEach(function (doc) {
         const user = doc.data();
         let p = user.projects;
         p.push(newProject.ID);
 
-        firestore
-          .collection('users')
-          .doc(doc.id)
-          .update({ projects: p });
+        firestore.collection('users').doc(doc.id).update({ projects: p });
       });
     });
-  dispatch({ type: 'TOGGLE_P_LOADING' });
+  dispatch(getAllProjects(newProject.userID));
 };
 
-export const getAllProjects = ID => (dispatch, getState, { getFirestore }) => {
+export const getAllProjects = (ID) => (
+  dispatch,
+  getState,
+  { getFirestore }
+) => {
   dispatch({ type: 'P_LOADING' });
   const firestore = getFirestore();
+  let projects = [];
+  let project = {};
   firestore
-    .collection('projects')
-    .where('projectCreator', '==', ID)
+    .collection('users')
+    .where('ID', '==', ID)
     .get()
-    .then(_projects => {
-      const projects = _projects.docs.map(doc => doc.data());
-      dispatch({ type: 'PROJECTS', payload: projects });
+    .then((_user) => {
+      const user = _user.docs.map((doc) => doc.data());
+      firestore
+        .collection('projects')
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            let temp = doc.data();
+            console.log(temp);
+            let _project = user[0].projects.filter(
+              (project) => project === temp.ID
+            );
+
+            if (_project.length !== 0) {
+              projects.push(temp);
+              if (user[0].project === _project[0]) project = temp;
+            }
+          });
+
+          dispatch({ type: 'PROJECTS', payload: { projects, project } });
+        });
     });
 };
 
-export const getThisProject = ID => async (
+export const getThisProject = (ID) => async (
   dispatch,
   getState,
   { getFirestore }
@@ -75,28 +96,28 @@ export const getThisProject = ID => async (
     .collection('projects')
     .where('ID', '==', ID)
     .get()
-    .then(_project => {
-      const project = _project.docs.map(doc => doc.data());
+    .then((_project) => {
+      const project = _project.docs.map((doc) => doc.data());
       let viewUser = [];
       firestore
         .collection('users')
         .get()
-        .then(querySnapshot => {
-          querySnapshot.forEach(doc => {
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
             let temp = doc.data();
-            let newUser = project[0].user.filter(_user => _user === temp.ID);
+            let newUser = project[0].users.filter((_user) => _user === temp.ID);
             if (newUser.length !== 0) viewUser = [...viewUser, { ...temp }];
           });
 
           dispatch({
             type: 'GET_THIS_PROJECT',
-            payload: { project: { ...project[0] }, viewUser: viewUser }
+            payload: { project: { ...project[0] }, viewUser: viewUser },
           });
         });
     });
 };
 
-export const updateProject = _updateProject => async (
+export const updateProject = (_updateProject) => async (
   dispatch,
   getState,
   { getFirestore }
@@ -107,18 +128,15 @@ export const updateProject = _updateProject => async (
     .collection('projects')
     .where('ID', '==', _updateProject.ID)
     .get()
-    .then(function(querySnapshot) {
-      querySnapshot.forEach(function(doc) {
-        firestore
-          .collection('projects')
-          .doc(doc.id)
-          .update(_updateProject);
+    .then(function (querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        firestore.collection('projects').doc(doc.id).update(_updateProject);
       });
       dispatch(getThisProject(_updateProject.ID));
     });
 };
 
-export const deleteProject = ID => async (
+export const deleteProject = (ID) => async (
   dispatch,
   getState,
   { getFirestore }
@@ -129,11 +147,34 @@ export const deleteProject = ID => async (
     .collection('projects')
     .where('ID', '==', ID)
     .get()
-    .then(querySnapshot =>
-      querySnapshot.forEach(doc =>
+    .then((querySnapshot) =>
+      querySnapshot.forEach((doc) =>
         doc.ref
           .delete()
           .then(() => dispatch({ type: 'DELETE_PROJECT', payload: ID }))
       )
     );
+};
+
+export const setCurrentProject = (ID, projectID) => async (
+  dispatch,
+  getState,
+  { getFirestore }
+) => {
+  dispatch({ type: 'P_LOADING' });
+  console.log(ID, projectID);
+  const firestore = getFirestore();
+  firestore
+    .collection('users')
+    .where('ID', '==', ID)
+    .get()
+    .then(function (querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        firestore
+          .collection('users')
+          .doc(doc.id)
+          .update({ project: projectID });
+      });
+      dispatch(getAllProjects(ID));
+    });
 };

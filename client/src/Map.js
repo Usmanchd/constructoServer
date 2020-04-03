@@ -55,22 +55,22 @@ class Map extends Component {
     } else {
       const loc = nextProps.location;
 
-      axios
-        .get(
-          `https://open.mapquestapi.com/geocoding/v1/address?key=8BMAbnYiw1lNi8wGGywrZzYwkoT3SrwT&location=${loc}`
-        )
-        .then(res => {
-          if (res.data.results[0] === undefined) return;
-          const { lat, lng } = res.data.results[0].locations[0].latLng;
+      axios({
+        method: 'GET',
+        url: 'https://open.mapquestapi.com/geocoding/v1/address',
+        params: { key: '8BMAbnYiw1lNi8wGGywrZzYwkoT3SrwT', location: loc }
+      }).then(res => {
+        if (res.data.results[0] === undefined) return;
+        const { lat, lng } = res.data.results[0].locations[0].latLng;
 
-          this.setState({
-            ...this.state,
-            center: { lat, lng },
-            loading: false,
-            lat,
-            lng
-          });
+        this.setState({
+          ...this.state,
+          center: { lat, lng },
+          loading: false,
+          lat,
+          lng
         });
+      });
     }
   };
 
@@ -104,7 +104,9 @@ class Map extends Component {
         ) : (
           <GoogleMapReact
             bootstrapURLKeys={{
-              key: process.env.REACT_APP_GOOGLE_MAP_KEY
+              key:
+                process.env.REACT_APP_GOOGLE_MAP_KEY ||
+                'AIzaSyDvqSD7IVx8FkmKJ7kpHyxZzKpJ2HARMBw'
             }}
             defaultCenter={this.state.dcenter}
             center={this.state.center}

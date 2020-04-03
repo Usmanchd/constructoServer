@@ -9,7 +9,10 @@ import ClipLoader from 'react-spinners/ClipLoader';
 import { Icon } from 'react-icons-kit';
 import { ic_lens } from 'react-icons-kit/md/ic_lens';
 
-import { getAllProjects } from '../../store/actions/projectActions';
+import {
+  getAllProjects,
+  setCurrentProject,
+} from '../../store/actions/projectActions';
 import './project.css';
 
 class ProjectList extends Component {
@@ -18,10 +21,10 @@ class ProjectList extends Component {
   };
   state = {
     selected: 'all',
-    projects: []
+    projects: [],
   };
 
-  componentDidUpdate = prevProps => {
+  componentDidUpdate = (prevProps) => {
     if (this.props.projects !== prevProps.projects)
       this.setState({ ...this.state, projects: [...this.props.projects] });
   };
@@ -41,22 +44,22 @@ class ProjectList extends Component {
     const { auth } = this.props;
     if (!auth.uid) return <Redirect to="/signin" />;
 
-    const handleChange = e => {
+    const handleChange = (e) => {
       let active;
       if (e.target.value === 'active') active = true;
       else if (e.target.value === 'inactive') active = false;
       else if (e.target.value === 'all') {
         this.setState({
           selected: e.target.value,
-          projects: this.props.projects
+          projects: this.props.projects,
         });
         return;
       }
       this.setState({
         selected: e.target.value,
         projects: this.props.projects.filter(
-          project => project.active === active
-        )
+          (project) => project.active === active
+        ),
       });
     };
     if (this.props.loading) {
@@ -66,7 +69,7 @@ class ProjectList extends Component {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            height: '100vh'
+            height: '100vh',
           }}
         >
           <ClipLoader
@@ -107,7 +110,7 @@ class ProjectList extends Component {
                 <h5>No Record Found!</h5>
               </div>
             )}
-            {this.state.projects.map(project => (
+            {this.state.projects.map((project) => (
               <div>
                 <div
                   className="project-main-subdetails"
@@ -117,13 +120,13 @@ class ProjectList extends Component {
                     style={{
                       display: 'flex',
 
-                      alignItems: 'center'
+                      alignItems: 'center',
                     }}
                   >
                     <div
                       style={{
                         color: project.active ? 'green' : '#FFFF00',
-                        margin: '0 4px 3px 0'
+                        margin: '0 4px 3px 0',
                       }}
                     >
                       <Icon size={12} icon={ic_lens} />
@@ -132,6 +135,19 @@ class ProjectList extends Component {
                   </span>
                   <span>{project.street}</span>
                   <span>{project.city}</span>
+                  <Link to="/">
+                    <button
+                      className="btn waves-effect"
+                      onClick={() =>
+                        this.props.setCurrentProject(
+                          this.props.profile.ID,
+                          project.ID
+                        )
+                      }
+                    >
+                      Set
+                    </button>
+                  </Link>
                   <Link to={`project-details/${project.ID}`}>
                     <button className="btn waves-effect">Detail</button>
                   </Link>
@@ -145,13 +161,15 @@ class ProjectList extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth,
     profile: state.firebase.profile,
     projects: state.project.projects,
-    loading: state.project.loading
+    loading: state.project.loading,
   };
 };
 
-export default connect(mapStateToProps, { getAllProjects })(ProjectList);
+export default connect(mapStateToProps, { getAllProjects, setCurrentProject })(
+  ProjectList
+);

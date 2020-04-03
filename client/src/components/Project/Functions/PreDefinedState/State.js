@@ -1,0 +1,20 @@
+const data = {
+  name: '',
+  street: '',
+  city: '',
+  zip: '',
+  state: '',
+  location: '',
+  projectDescription: '',
+  // starttime: "2.3",
+  // endtime: "2.3",
+  createdby: '',
+  lastupdate: '',
+  estimatestart: '',
+  estimatend: '',
+  users: [],
+  lat: '',
+  lng: '',
+  flag: false,
+};
+export default data;
