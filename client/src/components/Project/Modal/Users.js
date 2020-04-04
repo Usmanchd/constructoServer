@@ -86,7 +86,7 @@ class Users extends Component {
             className="btn-det btn waves-effect"
             onClick={this.props.closeModal}
           >
-            Close Modal
+            Close
           </button>
         </div>
         <Modal
