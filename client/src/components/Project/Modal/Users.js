@@ -67,7 +67,7 @@ class Users extends Component {
                 className="btn-det btn waves-effect"
                 // onClick={this.handleSubmit}
               >
-                Add Users
+                Add User
               </button>
               <button
                 className="btn-det btn waves-effect"
