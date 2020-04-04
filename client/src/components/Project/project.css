@@ -96,7 +96,7 @@ hr {
   border: 1px solid #fbd800;
   background-color: #282832;
 
-  border-radius: 15px;
+  /* border-radius: 15px; */
 }
 .details-grid-wrapper .grid h5 {
   text-align: center;
@@ -114,9 +114,9 @@ hr {
 .det-form input[type='text'] {
   padding: 0px;
 }
-.det-form input[type='text'],
-.det-form input[type='email'],
-.det-form input[type='password'],
+input[type='text'],
+input[type='email'],
+input[type='password'],
 textarea.materialize-textarea {
   color: white !important;
   /* border-right: 1px solid #9c9c9d !important;
@@ -124,10 +124,10 @@ textarea.materialize-textarea {
   border-radius: 0px 20px 20px 0px !important;
   transition: all 0.3s linear 0s !important; */
 }
-.det-form input[type='text']:not(.browser-default):focus:not([readonly]),
-.det-form input[type='email']:not(.browser-default):focus:not([readonly]),
-.det-form input[type='password']:not(.browser-default):focus:not([readonly]),
-.det-form textarea.materialize-textarea:focus:not([readonly]) {
+input[type='text']:not(.browser-default):focus:not([readonly]),
+input[type='email']:not(.browser-default):focus:not([readonly]),
+input[type='password']:not(.browser-default):focus:not([readonly]),
+textarea.materialize-textarea:focus:not([readonly]) {
   color: white !important;
   border-color: var(--main-logo-color);
   box-shadow: none;
@@ -136,28 +136,22 @@ textarea.materialize-textarea {
   border-bottom: 1px solid var(--main-logo-color) !important; */
 }
 
-.det-form
-  input[type='text']:not(.browser-default):focus:not([readonly])
-  + label,
-.det-form textarea.materialize-textarea:focus:not([readonly]) + label,
-.det-form
-  input[type='email']:not(.browser-default):focus:not([readonly])
-  + label,
-.det-form
-  input[type='password']:not(.browser-default):focus:not([readonly])
-  + label {
+input[type='text']:not(.browser-default):focus:not([readonly]) + label,
+textarea.materialize-textarea:focus:not([readonly]) + label,
+input[type='email']:not(.browser-default):focus:not([readonly]) + label,
+input[type='password']:not(.browser-default):focus:not([readonly]) + label {
   background-color: transparent !important;
   color: #ec407a !important;
 }
-.det-form label {
+label {
   color: white !important;
 }
-.det-form input:-webkit-autofill,
-.det-form input:-webkit-autofill:hover,
-.det-form input:-webkit-autofill:focus,
-.det-form textarea:-webkit-autofill,
-.det-form textarea:-webkit-autofill:hover,
-.det-form textarea:-webkit-autofill:focus {
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus {
   color: white !important;
   -webkit-text-fill-color: white;
   box-shadow: 0 0 0px 1000px #282832 inset !important;
@@ -171,6 +165,69 @@ textarea.materialize-textarea {
   /* height: 360px; */
   /* background-color: grey; */
   margin-top: 30px;
+}
+
+.users-list {
+  height: 220px;
+  overflow-y: scroll;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  
+}
+
+::-webkit-scrollbar-track {
+  margin-right: 10px;
+  border-radius: 10px;
+  background: #b9b5b5;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #282832;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(34, 34, 34) 832;
+}
+
+.Modal {
+  position: absolute;
+  top: 100px;
+  left: 280px;
+  right: 280px;
+  bottom: 40px;
+  background-color: #1e1e28;
+  color: white;
+  border: none !important;
+  padding: 30px;
+}
+.ModalRoles {
+  position: absolute;
+  top: 120px;
+  left: 320px;
+  right: 320px;
+  bottom: 60px;
+  background-color: #1e1e28;
+  color: white;
+  border: none !important;
+  padding: 30px;
+}
+
+.Overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(32, 27, 27, 0.658);
+  z-index: 100;
+}
+.waves-effect {
+  position: static;
 }
 
 @media only screen and (max-width: 1000px) {

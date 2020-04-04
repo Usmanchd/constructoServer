@@ -84,7 +84,12 @@ class Management extends Component {
 
             <button
               className="btn-det btn waves-effect"
-              style={{ marginLeft: '100px' }}
+              style={{
+                margin: '5px 25px',
+                fontSize: '10px',
+                padding: '0 5px',
+                width: '80%',
+              }}
             >
               Request More Space
             </button>
@@ -133,24 +138,44 @@ class Management extends Component {
 
             <button
               className="btn-det btn waves-effect"
-              style={{ marginLeft: '100px' }}
+              style={{
+                margin: '5px 25px',
+                fontSize: '10px',
+                padding: '0 5px',
+                width: '80%',
+              }}
             >
               Request More Users
             </button>
-            <div className="input-field col s12">
-              <p
-                htmlFor="name"
+
+            <div>
+              <div className="users-list">
+                <p
+                  htmlFor="name"
+                  style={{
+                    margin: '25px 0 0 0',
+                    padding: '0',
+                    fontSize: '12px',
+                  }}
+                >
+                  List of Users
+                </p>
+                {this.props.viewUser.map((v) => (
+                  <p>{v.Name}</p>
+                ))}
+              </div>
+              <button
+                className="btn-det btn waves-effect"
                 style={{
-                  margin: '25px 0 0 0',
-                  padding: '0',
-                  fontSize: '12px',
+                  margin: '15px 25px',
+                  fontSize: '10px',
+                  padding: '0 5px',
+                  width: '80%',
                 }}
+                onClick={this.props.openModal}
               >
-                List of Users
-              </p>
-              {this.props.viewUser.map((v) => (
-                <p>{v.Name}</p>
-              ))}
+                Configure Users
+              </button>
             </div>
           </div>
         </form>

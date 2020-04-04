@@ -33,6 +33,8 @@ const HandleSubmit = (
       if (state.createdby === undefined) newstate.createdby = profile.Name;
 
       delete newstate.flag;
+      delete newstate.viewUser;
+      delete newstate.isOpen;
       createProject(newstate);
       history.push('/list');
     } else {
@@ -46,6 +48,8 @@ const HandleSubmit = (
           const { lat, lng } = res.data.results[0].locations[0].latLng;
 
           delete newstate.flag;
+          delete newstate.viewUser;
+          delete newstate.isOpen;
           if (state.lat === '' || state.lng === '') {
             newstate.lat = lat;
             newstate.lng = lng;
@@ -60,6 +64,8 @@ const HandleSubmit = (
     if (state.lat || state.lng) {
       let newstate = { ...state, lastupdate: Date.now() };
       delete newstate.flag;
+      delete newstate.viewUser;
+      delete newstate.isOpen;
       updateProject(newstate);
     } else {
       axios
@@ -72,6 +78,8 @@ const HandleSubmit = (
           const { lat, lng } = res.data.results[0].locations[0].latLng;
           let newstate = { ...state };
           delete newstate.flag;
+          delete newstate.viewUser;
+          delete newstate.isOpen;
           if (state.lat === '' || state.lng === '') {
             newstate.lat = lat;
             newstate.lng = lng;

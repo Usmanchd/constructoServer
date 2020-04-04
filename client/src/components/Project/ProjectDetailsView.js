@@ -26,6 +26,9 @@ import General from './Views/General';
 import Management from './Views/Management';
 import Settings from './Views/Settings';
 
+import Modal from 'react-modal';
+import Users from './Modal/Users';
+
 class ProjectDetailsView extends Component {
   state = { ...data };
 
@@ -35,6 +38,14 @@ class ProjectDetailsView extends Component {
         ...this.state,
         createdby: this.props.profile.Name,
         flag: true,
+        viewUser: [
+          { Name: 'Usman' },
+          { Name: 'Arslan' },
+          { Name: 'Asfand' },
+          { Name: 'Usman' },
+          { Name: 'Usman' },
+          { Name: 'Usman' },
+        ],
       });
     else {
       this.props.getThisProject(this.props.id);
@@ -42,8 +53,8 @@ class ProjectDetailsView extends Component {
   };
 
   componentDidUpdate = (prevProps) => {
-    if (this.props === prevProps) return;
-    this.setState({ ...this.props.project });
+    if (this.props.project === prevProps.project) return;
+    this.setState({ ...this.props.project, viewUser: this.props.viewUser });
   };
 
   handleEdit = () => {
@@ -89,6 +100,19 @@ class ProjectDetailsView extends Component {
     });
   };
 
+  openModal = () => {
+    this.setState({ ...this.state, isOpen: true });
+  };
+
+  // afterOpenModal() {
+  //   // references are now sync'd and can be accessed.
+  //   subtitle.style.color = '#f00';
+  // }
+
+  closeModal = () => {
+    this.setState({ ...this.state, isOpen: false });
+  };
+
   render() {
     const { auth, profile } = this.props;
 
@@ -98,6 +122,8 @@ class ProjectDetailsView extends Component {
       if (!profile.projects.includes(this.props.id))
         return <Redirect to="/list" />;
     }
+
+    console.log(this.state);
 
     const handleMarker = (lat, lng) => {
       HandleMarker(lat, lng, this.state).then((data) =>
@@ -196,7 +222,8 @@ class ProjectDetailsView extends Component {
             <Management
               state={this.state}
               handleChange={this.handleChange}
-              viewUser={this.props.viewUser}
+              viewUser={this.state.viewUser}
+              openModal={this.openModal}
             />
             <Settings
               state={this.state}
@@ -206,6 +233,18 @@ class ProjectDetailsView extends Component {
               match={this.props.match}
             />
           </div>
+          <Modal
+            isOpen={this.state.isOpen}
+            onRequestClose={this.closeModal}
+            className="Modal"
+            overlayClassName="Overlay"
+            shouldCloseOnOverlayClick
+          >
+            <Users
+              closeModal={this.closeModal}
+              viewUser={this.state.viewUser}
+            />
+          </Modal>
         </div>
       );
   }

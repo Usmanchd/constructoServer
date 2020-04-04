@@ -16,5 +16,7 @@ const data = {
   lat: '',
   lng: '',
   flag: false,
+  viewUser: [],
+  isOpen: false,
 };
 export default data;
