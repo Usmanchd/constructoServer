@@ -107,7 +107,7 @@ class General extends Component {
               disabled={!this.props.state.flag}
               style={{ fontWeight: 'bolder' }}
               type="text"
-              id="props.state"
+              id="state"
               value={this.props.state.state}
               required
               onChange={this.props.handleChange}

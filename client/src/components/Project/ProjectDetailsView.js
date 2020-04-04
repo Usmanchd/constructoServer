@@ -126,18 +126,20 @@ class ProjectDetailsView extends Component {
     console.log(this.state);
 
     const handleMarker = (lat, lng) => {
-      HandleMarker(lat, lng, this.state).then((data) =>
-        this.setState({
-          ...this.state,
-          lng,
-          lat,
-          street: data.street,
-          state: data.adminArea3,
-          zip: data.postalCode,
-          city: data.adminArea5,
-          location: `${data.street} ${data.adminArea5}`,
-        })
-      );
+      HandleMarker(lat, lng, this.state)
+        .then((data) =>
+          this.setState({
+            ...this.state,
+            lng,
+            lat,
+            street: data.street,
+            state: data.adminArea3,
+            zip: data.postalCode,
+            city: data.adminArea5,
+            location: `${data.street} ${data.adminArea5}`,
+          })
+        )
+        .catch((err) => console.log(err));
     };
 
     if (this.props.loading) {
