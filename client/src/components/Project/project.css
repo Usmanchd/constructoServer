@@ -209,7 +209,7 @@ textarea:-webkit-autofill:focus {
   position: absolute;
   top: 120px;
   left: 320px;
-  right: 320px;
+  right: 340px;
   bottom: 60px;
   background-color: #1e1e28;
   color: white;
@@ -230,11 +230,15 @@ textarea:-webkit-autofill:focus {
   position: static;
 }
 
-.dropdown {
-  color: red;
-  background-color: black;
+.Dropdown-control {
+  color: white !important;
+  background-color: rgba(53, 45, 45, 0.658) !important;
+  border: none !important;
 }
 
+.default-list {
+  padding: 1px 2px;
+}
 @media only screen and (max-width: 1000px) {
   /* * {
     font-size: 16px;

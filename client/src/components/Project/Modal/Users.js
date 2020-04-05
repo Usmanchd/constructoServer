@@ -5,12 +5,14 @@ import { connect } from 'react-redux';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import { handleAddUser } from '../../../store/actions/projectActions';
+import { Icon } from 'react-icons-kit';
+import { cross } from 'react-icons-kit/icomoon/cross';
 
-const options = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' },
-];
+// const options = [
+//   { value: 'chocolate', label: 'Chocolate' },
+//   { value: 'strawberry', label: 'Strawberry' },
+//   { value: 'vanilla', label: 'Vanilla' },
+// ];
 
 class Users extends Component {
   componentDidMount = () => {
@@ -19,10 +21,34 @@ class Users extends Component {
       user: this.props.viewUser.map((u) => {
         return {
           uservalue: { ...u },
-          selectedOption: null,
+          selectedOption: this.getRole(u),
         };
       }),
+      options: this.getOptions(),
     });
+  };
+  getRole = (user) => {
+    let u = this.props.roles.filter((role) => role.userID === user.ID);
+    console.log(u);
+    if (u) return u[0].roleName;
+    else return null;
+  };
+
+  getOptions = () => {
+    let uniqueNames = [];
+    this.props.roles.map(
+      (role) =>
+        !uniqueNames.includes(role.roleName) && uniqueNames.push(role.roleName)
+    );
+    console.log(uniqueNames);
+    let option = uniqueNames.map((un) => {
+      return {
+        value: un,
+        label: un,
+      };
+    });
+    console.log(option);
+    return option;
   };
 
   state = { isOpen: false, email: '', selectedOption: null, user: [] };
@@ -49,13 +75,12 @@ class Users extends Component {
     this.setState({ ...this.state, isOpen: false });
   };
 
-  addUser = () => {
+  addUser = (e) => {
+    if (this.state.email === '') return;
     this.props.handleAddUser(this.state.email, this.props.projectID);
   };
 
   render() {
-    console.log(this.props.userID, this.props.projectID);
-    console.log(this.state);
     return (
       <div>
         <div
@@ -90,56 +115,88 @@ class Users extends Component {
                 marginTop: '0',
               }}
             >
-              <span>
+              <form onSubmit={(e) => e.preventDefault()}>
+                <span>
+                  <input
+                    id="email"
+                    // disabled={!this.props.state.flag}
+                    style={{ fontWeight: 'bolder', width: '60%' }}
+                    type="email"
+                    value={this.state.email}
+                    required
+                    onChange={(e) =>
+                      this.setState({ ...this.state, email: e.target.value })
+                    }
+                  />
+                </span>
                 <input
-                  id="email"
-                  // disabled={!this.props.state.flag}
-                  style={{ fontWeight: 'bolder', width: '61%' }}
-                  type="text"
-                  value={this.state.email}
-                  // required
-                  onChange={(e) =>
-                    this.setState({ ...this.state, email: e.target.value })
-                  }
+                  type="submit"
+                  className="btn-det btn waves-effect"
+                  value="Add User"
+                  onClick={this.addUser}
                 />
-              </span>
-              <button
-                className="btn-det btn waves-effect"
-                onClick={this.addUser}
-              >
-                Add User
-              </button>
-              <button
-                className="btn-det btn waves-effect"
-                onClick={this.openModal}
-              >
-                Configure Roles
-              </button>
+
+                <button
+                  className="btn-det btn waves-effect"
+                  onClick={this.openModal}
+                >
+                  Configure Roles
+                </button>
+              </form>
             </div>
             <div className="users-list">
               {this.state.user &&
                 this.state.user.map((v, i) => (
-                  <p
+                  <React.Fragment>
+                    <p
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                      }}
+                      className="default-list"
+                    >
+                      {v.uservalue.Name}
+                      <span
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                        }}
+                      >
+                        <Dropdown
+                          options={this.state.options && this.state.options}
+                          onChange={(selectedOption) =>
+                            this.handleChange(selectedOption, i)
+                          }
+                          value={v.selectedOption}
+                          placeholder="Select an option"
+                          className="dropdown"
+                        />
+                        <span style={{ color: '#c4302b', marginLeft: '4px' }}>
+                          <Icon size={24} icon={cross} />
+                        </span>
+                      </span>
+                    </p>
+                    <hr />
+                  </React.Fragment>
+                ))}
+              {this.props.pendingRegistrations.map((pr) => (
+                <React.Fragment>
+                  <span
                     style={{
                       display: 'flex',
                       justifyContent: 'space-between',
                       alignItems: 'center',
                     }}
                   >
-                    {v.uservalue.Name}
-                    <Dropdown
-                      options={options}
-                      onChange={(selectedOption) =>
-                        this.handleChange(selectedOption, i)
-                      }
-                      value={v.selectedOption}
-                      placeholder="Select an option"
-                      className="dropdown"
-                    />
-                  </p>
-                ))}
-              {this.props.pendingRegistrations.map((pr) => (
-                <p>{pr}</p>
+                    <p className="default-list">{pr} (Pending Registation)</p>{' '}
+                    <span style={{ color: '#c4302b', marginLeft: '4px' }}>
+                      <Icon size={24} icon={cross} />
+                    </span>
+                  </span>
+                  <hr />
+                </React.Fragment>
               ))}
             </div>
           </span>
@@ -157,7 +214,11 @@ class Users extends Component {
           overlayClassName="Overlay"
           shouldCloseOnOverlayClick
         >
-          <Roles />
+          <Roles
+            roles={this.props.roles}
+            options={this.state.options}
+            closeModal={this.closeModal}
+          />
         </Modal>
       </div>
     );

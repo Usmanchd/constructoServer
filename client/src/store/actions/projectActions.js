@@ -217,7 +217,7 @@ export const handleAddUser = (userEmail, projectID) => async (
   { getFirestore }
 ) => {
   dispatch({ type: 'P_LOADING' });
-  console.log(userEmail, projectID);
+
   const firestore = getFirestore();
   firestore
     .collection('users')
@@ -235,7 +235,7 @@ export const handleAddUser = (userEmail, projectID) => async (
               let index = temp.pendingRegistrations.filter(
                 (email) => email === userEmail
               );
-              console.log(index);
+
               if (index.length > 0) return;
               else {
                 temp.pendingRegistrations.push(userEmail);
@@ -254,21 +254,43 @@ export const handleAddUser = (userEmail, projectID) => async (
           user = doc.data();
         });
 
-        console.log(user, 'user ID to be added to project.users');
         firestore
           .collection('projects')
           .where('ID', '==', projectID)
           .get()
           .then((querySnapshot) => {
             let temp;
+
             querySnapshot.forEach(function (doc) {
               temp = doc.data();
-              console.log(temp, 'project in which user ID to be added');
+
+              let index = temp.users.filter((u) => u === user.ID);
+
+              if (index.length > 0) return;
+
               temp.users.push(user.ID);
+
+              temp.roles.push({
+                createdAt: Date.now(),
+                updatedAt: Date.now(),
+                deleted: false,
+                roleName: 'ORDINARY',
+                projectRule: 'READ',
+                rolesRule: 'READ',
+                diaryRule: 'WRITE',
+                documentationRule: 'WRITE',
+                versionsRule: 'WRITE',
+                signingRule: 'WRITE',
+                admin: true,
+                superAdmin: false,
+                userName: user.Name,
+                userID: user.ID,
+              });
+
               firestore
                 .collection('projects')
                 .doc(doc.id)
-                .update({ users: temp.users });
+                .update({ users: temp.users, roles: temp.roles });
             });
 
             firestore
@@ -278,14 +300,19 @@ export const handleAddUser = (userEmail, projectID) => async (
               .then((querySnapshot) => {
                 querySnapshot.forEach(function (doc) {
                   let _temp = doc.data();
+                  let index = _temp.projects.filter(
+                    (project) => project === temp.ID
+                  );
                   console.log(_temp);
+                  console.log(index);
+                  if (index.length > 0) return;
                   _temp.projects.push(temp.ID);
+
                   firestore
                     .collection('users')
                     .doc(doc.id)
                     .update({ projects: _temp.projects });
                 });
-
                 dispatch(getThisProject(projectID));
               });
             // dispatch(getThisProject(projectID));

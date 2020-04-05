@@ -117,8 +117,6 @@ class ProjectDetailsView extends Component {
         return <Redirect to="/list" />;
     }
 
-    console.log(this.state);
-
     const handleMarker = (lat, lng) => {
       HandleMarker(lat, lng, this.state)
         .then((data) =>
@@ -242,6 +240,7 @@ class ProjectDetailsView extends Component {
               pendingRegistrations={this.state.pendingRegistrations}
               userID={this.props.profile.ID}
               projectID={this.props.project.ID}
+              roles={this.props.project.roles}
             />
           </Modal>
         </div>
