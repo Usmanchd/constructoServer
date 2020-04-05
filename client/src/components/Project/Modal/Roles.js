@@ -8,6 +8,7 @@ class Roles extends Component {
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',
           gridGap: '20px',
+          textAlign: 'center',
         }}
       >
         <div>Roles</div>

@@ -38,14 +38,8 @@ class ProjectDetailsView extends Component {
         ...this.state,
         createdby: this.props.profile.Name,
         flag: true,
-        viewUser: [
-          { Name: 'Usman' },
-          { Name: 'Arslan' },
-          { Name: 'Asfand' },
-          { Name: 'Usman' },
-          { Name: 'Usman' },
-          { Name: 'Usman' },
-        ],
+        viewUser: [],
+        pendingRegistrations: [],
       });
     else {
       this.props.getThisProject(this.props.id);
@@ -245,6 +239,9 @@ class ProjectDetailsView extends Component {
             <Users
               closeModal={this.closeModal}
               viewUser={this.state.viewUser}
+              pendingRegistrations={this.state.pendingRegistrations}
+              userID={this.props.profile.ID}
+              projectID={this.props.project.ID}
             />
           </Modal>
         </div>

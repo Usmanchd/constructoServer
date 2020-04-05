@@ -170,11 +170,11 @@ textarea:-webkit-autofill:focus {
 .users-list {
   height: 220px;
   overflow-y: scroll;
+  padding: 6px;
 }
 
 ::-webkit-scrollbar {
   width: 8px;
-  
 }
 
 ::-webkit-scrollbar-track {
@@ -228,6 +228,11 @@ textarea:-webkit-autofill:focus {
 }
 .waves-effect {
   position: static;
+}
+
+.dropdown {
+  color: red;
+  background-color: black;
 }
 
 @media only screen and (max-width: 1000px) {

@@ -13,6 +13,7 @@ const data = {
   estimatestart: '',
   estimatend: '',
   users: [],
+  pendingRegistrations: [],
   lat: '',
   lng: '',
   flag: false,

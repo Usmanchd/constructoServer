@@ -35,7 +35,7 @@ const HandleSubmit = (
       delete newstate.flag;
       delete newstate.viewUser;
       delete newstate.isOpen;
-      createProject(newstate);
+      createProject(newstate, profile);
       history.push('/list');
     } else {
       axios

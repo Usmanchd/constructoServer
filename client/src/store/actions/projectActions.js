@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
-export const createProject = (_newProject) => async (
+export const createProject = (_newProject, { Name, ID }) => async (
   dispatch,
   getState,
   { getFirestore }
@@ -14,7 +14,7 @@ export const createProject = (_newProject) => async (
     deletedAt: null,
     updatedAt: Date.now(),
     active: true,
-    pendingRegistrations: [],
+
     tags: null,
     taskCategories: null,
     diaryCategories: null,
@@ -29,6 +29,38 @@ export const createProject = (_newProject) => async (
     legacy: null,
     legacyId: null,
     legacyContent: null,
+    definedRoles: {
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      deleted: false,
+      roleName: 'ORDINARY',
+      projectRule: 'READ',
+      rolesRule: 'READ',
+      diaryRule: 'WRITE',
+      documentationRule: 'WRITE',
+      versionsRule: 'WRITE',
+      signingRule: 'WRITE',
+      admin: false,
+      superAdmin: false,
+    },
+    roles: [
+      {
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+        deleted: false,
+        roleName: 'PROJECT CREATOR',
+        projectRule: 'WRITE',
+        rolesRule: 'WRITE',
+        diaryRule: 'WRITE',
+        documentationRule: 'WRITE',
+        versionsRule: 'WRITE',
+        signingRule: 'WRITE',
+        admin: true,
+        superAdmin: false,
+        userName: Name,
+        userID: ID,
+      },
+    ],
   };
   await firestore.collection('projects').add(newProject);
 
@@ -176,5 +208,88 @@ export const setCurrentProject = (ID, projectID) => async (
           .update({ project: projectID });
       });
       dispatch(getAllProjects(ID));
+    });
+};
+
+export const handleAddUser = (userEmail, projectID) => async (
+  dispatch,
+  getState,
+  { getFirestore }
+) => {
+  dispatch({ type: 'P_LOADING' });
+  console.log(userEmail, projectID);
+  const firestore = getFirestore();
+  firestore
+    .collection('users')
+    .where('email', '==', userEmail)
+    .get()
+    .then(function (querySnapshot) {
+      if (querySnapshot.docs.length === 0) {
+        firestore
+          .collection('projects')
+          .where('ID', '==', projectID)
+          .get()
+          .then((querySnapshot) => {
+            querySnapshot.forEach(function (doc) {
+              let temp = doc.data();
+              let index = temp.pendingRegistrations.filter(
+                (email) => email === userEmail
+              );
+              console.log(index);
+              if (index.length > 0) return;
+              else {
+                temp.pendingRegistrations.push(userEmail);
+                firestore
+                  .collection('projects')
+                  .doc(doc.id)
+                  .update({ pendingRegistrations: temp.pendingRegistrations });
+              }
+            });
+
+            dispatch(getThisProject(projectID));
+          });
+      } else {
+        let user;
+        querySnapshot.forEach(function (doc) {
+          user = doc.data();
+        });
+
+        console.log(user, 'user ID to be added to project.users');
+        firestore
+          .collection('projects')
+          .where('ID', '==', projectID)
+          .get()
+          .then((querySnapshot) => {
+            let temp;
+            querySnapshot.forEach(function (doc) {
+              temp = doc.data();
+              console.log(temp, 'project in which user ID to be added');
+              temp.users.push(user.ID);
+              firestore
+                .collection('projects')
+                .doc(doc.id)
+                .update({ users: temp.users });
+            });
+
+            firestore
+              .collection('users')
+              .where('ID', '==', user.ID)
+              .get()
+              .then((querySnapshot) => {
+                querySnapshot.forEach(function (doc) {
+                  let _temp = doc.data();
+                  console.log(_temp);
+                  _temp.projects.push(temp.ID);
+                  firestore
+                    .collection('users')
+                    .doc(doc.id)
+                    .update({ projects: _temp.projects });
+                });
+
+                dispatch(getThisProject(projectID));
+              });
+            // dispatch(getThisProject(projectID));
+          });
+      }
     });
 };
