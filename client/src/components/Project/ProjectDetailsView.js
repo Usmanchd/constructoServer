@@ -218,6 +218,7 @@ class ProjectDetailsView extends Component {
               handleChange={this.handleChange}
               viewUser={this.state.viewUser}
               openModal={this.openModal}
+              match={this.props.match}
             />
             <Settings
               state={this.state}
@@ -241,6 +242,7 @@ class ProjectDetailsView extends Component {
               userID={this.props.profile.ID}
               projectID={this.props.project.ID}
               roles={this.props.project.roles}
+              definedRoles={this.props.project.definedRoles}
             />
           </Modal>
         </div>

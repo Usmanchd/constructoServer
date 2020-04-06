@@ -71,6 +71,13 @@ hr {
   border: 1px solid #fbd800 !important;
   color: white !important;
 }
+.btn-det-yellow {
+  margin-right: 5px;
+  border-radius: 10px;
+  background-color: #fbd800 !important;
+  border: 1px solid #fbd800 !important;
+  color: black !important;
+}
 
 .btn-det:disabled,
 .btn-det[disabled] {
@@ -196,10 +203,10 @@ textarea:-webkit-autofill:focus {
 
 .Modal {
   position: absolute;
-  top: 100px;
-  left: 280px;
-  right: 280px;
-  bottom: 40px;
+  top: 60px;
+  left: 295px;
+  right: 295px;
+  bottom: 50px;
   background-color: #1e1e28;
   color: white;
   border: none !important;
@@ -207,9 +214,9 @@ textarea:-webkit-autofill:focus {
 }
 .ModalRoles {
   position: absolute;
-  top: 120px;
-  left: 320px;
-  right: 340px;
+  top: 70px;
+  left: 325px;
+  right: 325px;
   bottom: 60px;
   background-color: #1e1e28;
   color: white;
@@ -263,6 +270,28 @@ textarea:-webkit-autofill:focus {
     height: 900px;
     margin-bottom: 10px;
   }
+  .Modal {
+    position: absolute;
+    top: 60px;
+    left: 65px;
+    right: 65px;
+    bottom: 50px;
+    background-color: #1e1e28;
+    color: white;
+    border: none !important;
+    padding: 30px;
+  }
+  .ModalRoles {
+    position: absolute;
+    top: 70px;
+    left: 95px;
+    right: 95px;
+    bottom: 60px;
+    background-color: #1e1e28;
+    color: white;
+    border: none !important;
+    padding: 30px;
+  }
 }
 
 @media only screen and (max-width: 700px) {
@@ -292,5 +321,27 @@ textarea:-webkit-autofill:focus {
   .details-grid-wrapper .grid {
     height: 900px;
     margin-bottom: 10px;
+  }
+  .Modal {
+    position: absolute;
+    top: 60px;
+    left: 15px;
+    right: 15px;
+    bottom: 50px;
+    background-color: #1e1e28;
+    color: white;
+    border: none !important;
+    padding: 30px;
+  }
+  .ModalRoles {
+    position: absolute;
+    top: 70px;
+    left: 25px;
+    right: 25px;
+    bottom: 60px;
+    background-color: #1e1e28;
+    color: white;
+    border: none !important;
+    padding: 30px;
   }
 }

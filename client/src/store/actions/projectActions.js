@@ -1,5 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 export const createProject = (_newProject, { Name, ID }) => async (
   dispatch,
   getState,
@@ -29,26 +32,42 @@ export const createProject = (_newProject, { Name, ID }) => async (
     legacy: null,
     legacyId: null,
     legacyContent: null,
-    definedRoles: {
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
-      deleted: false,
-      roleName: 'ORDINARY',
-      projectRule: 'READ',
-      rolesRule: 'READ',
-      diaryRule: 'WRITE',
-      documentationRule: 'WRITE',
-      versionsRule: 'WRITE',
-      signingRule: 'WRITE',
-      admin: false,
-      superAdmin: false,
-    },
+    definedRoles: [
+      {
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+        deleted: false,
+        roleName: 'ORDINARY',
+        projectRule: 'READ',
+        rolesRule: 'READ',
+        diaryRule: 'WRITE',
+        documentationRule: 'WRITE',
+        versionsRule: 'WRITE',
+        signingRule: 'WRITE',
+        admin: false,
+        superAdmin: false,
+      },
+      {
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+        deleted: false,
+        roleName: 'ADMINISTRATOR',
+        projectRule: 'WRITE',
+        rolesRule: 'WRITE',
+        diaryRule: 'WRITE',
+        documentationRule: 'WRITE',
+        versionsRule: 'WRITE',
+        signingRule: 'WRITE',
+        admin: true,
+        superAdmin: false,
+      },
+    ],
     roles: [
       {
         createdAt: Date.now(),
         updatedAt: Date.now(),
         deleted: false,
-        roleName: 'PROJECT CREATOR',
+        roleName: 'ADMINISTRATOR',
         projectRule: 'WRITE',
         rolesRule: 'WRITE',
         diaryRule: 'WRITE',
@@ -236,13 +255,20 @@ export const handleAddUser = (userEmail, projectID) => async (
                 (email) => email === userEmail
               );
 
-              if (index.length > 0) return;
-              else {
+              if (index.length > 0) {
+                toast.error('Email already Exists in pending Registrations!');
+                return;
+              } else {
                 temp.pendingRegistrations.push(userEmail);
                 firestore
                   .collection('projects')
                   .doc(doc.id)
-                  .update({ pendingRegistrations: temp.pendingRegistrations });
+                  .update({ pendingRegistrations: temp.pendingRegistrations })
+                  .then(() =>
+                    toast.warning(
+                      'User not Found Added to Pending Registrations !'
+                    )
+                  );
               }
             });
 
@@ -266,7 +292,12 @@ export const handleAddUser = (userEmail, projectID) => async (
 
               let index = temp.users.filter((u) => u === user.ID);
 
-              if (index.length > 0) return;
+              if (index.length > 0) {
+                toast.error('User already Exists!', {
+                  delay: 1500,
+                });
+                return;
+              }
 
               temp.users.push(user.ID);
 
@@ -311,12 +342,91 @@ export const handleAddUser = (userEmail, projectID) => async (
                   firestore
                     .collection('users')
                     .doc(doc.id)
-                    .update({ projects: _temp.projects });
+                    .update({ projects: _temp.projects })
+                    .then(() => toast.success('User Added !', { delay: 1000 }));
                 });
                 dispatch(getThisProject(projectID));
               });
             // dispatch(getThisProject(projectID));
           });
       }
+    });
+};
+
+export const handleRole = (newRole, projectID) => async (
+  dispatch,
+  getState,
+  { getFirestore }
+) => {
+  dispatch({ type: 'P_LOADING' });
+  console.log(newRole, projectID);
+  const firestore = getFirestore();
+
+  firestore
+    .collection('projects')
+    .where('ID', '==', projectID)
+    .get()
+    .then(function (querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        let temp = doc.data();
+        let index = temp.definedRoles.filter(
+          (role) => role.roleName === newRole.roleName
+        );
+        if (index.length > 0) {
+          toast.error('Role with this Name already exists!', { delay: 2000 });
+          return;
+        }
+        temp.definedRoles.push(newRole);
+        firestore
+          .collection('projects')
+          .doc(doc.id)
+          .update({ definedRoles: temp.definedRoles })
+          .then(() => toast.success('Role Created !', { delay: 2000 }));
+      });
+
+      dispatch(getThisProject(projectID));
+    });
+};
+
+export const handleUpdateRole = (updatedRole, projectID) => async (
+  dispatch,
+  getState,
+  { getFirestore }
+) => {
+  dispatch({ type: 'P_LOADING' });
+  console.log(updatedRole, projectID, 'update action');
+  const firestore = getFirestore();
+
+  firestore
+    .collection('projects')
+    .where('ID', '==', projectID)
+    .get()
+    .then(function (querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        let temp = doc.data();
+        let newroles = temp.roles.map((role) => {
+          if (role.roleName === updatedRole.roleName) {
+            return {
+              ...role,
+              ...updatedRole,
+            };
+          } else return role;
+        });
+
+        let newdefinedRoles = temp.definedRoles.map((role) => {
+          if (role.roleName === updatedRole.roleName) {
+            return {
+              ...updatedRole,
+            };
+          } else return role;
+        });
+
+        firestore
+          .collection('projects')
+          .doc(doc.id)
+          .update({ roles: newroles, definedRoles: newdefinedRoles })
+          .then(() => toast.success('Role Updated !', { delay: 1000 }));
+      });
+      dispatch(getThisProject(projectID));
     });
 };

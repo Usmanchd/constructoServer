@@ -33,14 +33,14 @@ class SignUp extends Component {
     progress: 0,
     loading: false,
     avatarURL:
-      'https://firebasestorage.googleapis.com/v0/b/abstract-lane-269917.appspot.com/o/images%2Fuser-icon-silhouette.jpg?alt=media&token=71e1f4d0-129b-4d59-a6be-ee6fd99e2a28'
+      'https://firebasestorage.googleapis.com/v0/b/abstract-lane-269917.appspot.com/o/images%2F5b994b43-fda3-4487-b55b-dfa182d33b5d.jpg?alt=media&token=de227e18-42c9-4581-9917-375c584946e1',
   };
-  handleChange = e => {
+  handleChange = (e) => {
     this.setState({
-      [e.target.id]: e.target.value
+      [e.target.id]: e.target.value,
     });
   };
-  handleSubmit = async e => {
+  handleSubmit = async (e) => {
     e.preventDefault();
     // this.setState({ loading: true });
 
@@ -50,18 +50,18 @@ class SignUp extends Component {
   //firebase file uploader
 
   handleUploadStart = () => this.setState({ isUploading: true, progress: 0 });
-  handleProgress = progress => this.setState({ progress });
-  handleUploadError = error => {
+  handleProgress = (progress) => this.setState({ progress });
+  handleUploadError = (error) => {
     this.setState({ isUploading: false });
   };
-  handleUploadSuccess = filename => {
+  handleUploadSuccess = (filename) => {
     this.setState({ avatar: filename, progress: 100 });
     firebase
       .storage()
       .ref('images')
       .child(filename)
       .getDownloadURL()
-      .then(url => this.setState({ avatarURL: url }));
+      .then((url) => this.setState({ avatarURL: url }));
     setTimeout(() => {
       this.setState({ isUploading: false });
     }, 1000);
@@ -81,14 +81,14 @@ class SignUp extends Component {
             style={{
               display: 'flex',
               alignItems: 'center',
-              margin: '15px'
+              margin: '15px',
             }}
           >
             <div
               style={{
                 width: 64,
                 height: 64,
-                color: '#fbd800'
+                color: '#fbd800',
                 // margin: 'auto'
               }}
             >
@@ -167,7 +167,7 @@ class SignUp extends Component {
                       width: '90px',
                       height: '90px',
 
-                      margin: '0 auto'
+                      margin: '0 auto',
                     }}
                     alt="userIcon"
                   />
@@ -177,7 +177,7 @@ class SignUp extends Component {
                         width: 34,
                         height: 34,
                         color: '#fbd800',
-                        margin: '2px auto'
+                        margin: '2px auto',
                       }}
                     >
                       <Icon size={'100%'} icon={basic_upload} />
@@ -226,17 +226,17 @@ class SignUp extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth,
     authError: state.auth.authError,
-    tempEP: state.auth.tempEP
+    tempEP: state.auth.tempEP,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    signUp: creds => dispatch(signUp(creds))
+    signUp: (creds) => dispatch(signUp(creds)),
   };
 };
 

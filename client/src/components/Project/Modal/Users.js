@@ -27,27 +27,33 @@ class Users extends Component {
       options: this.getOptions(),
     });
   };
+
+  // componentDidUpdate = (pervProps) => {
+  //   console.log(pervProps);
+  //   if (this.props !== pervProps) {
+  //     console.log('here');
+  //     this.setState({ ...this.state, isOpen: true }, (s) => console.log(s));
+  //   } else return;
+  // };
+
   getRole = (user) => {
     let u = this.props.roles.filter((role) => role.userID === user.ID);
     console.log(u);
-    if (u) return u[0].roleName;
+    if (u[0]) return u[0].roleName;
     else return null;
   };
 
   getOptions = () => {
     let uniqueNames = [];
-    this.props.roles.map(
-      (role) =>
-        !uniqueNames.includes(role.roleName) && uniqueNames.push(role.roleName)
-    );
-    console.log(uniqueNames);
+    this.props.definedRoles.map((role) => uniqueNames.push(role.roleName));
+
     let option = uniqueNames.map((un) => {
       return {
         value: un,
         label: un,
       };
     });
-    console.log(option);
+
     return option;
   };
 
@@ -88,7 +94,7 @@ class Users extends Component {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
-            height: '440px',
+            height: '460px',
           }}
         >
           <span>
@@ -144,7 +150,7 @@ class Users extends Component {
                 </button>
               </form>
             </div>
-            <div className="users-list">
+            <div className="users-list" style={{ height: '240px' }}>
               {this.state.user &&
                 this.state.user.map((v, i) => (
                   <React.Fragment>
@@ -218,6 +224,8 @@ class Users extends Component {
             roles={this.props.roles}
             options={this.state.options}
             closeModal={this.closeModal}
+            definedRoles={this.props.definedRoles}
+            projectID={this.props.projectID}
           />
         </Modal>
       </div>

@@ -164,18 +164,20 @@ class Management extends Component {
                   <p>{v.Name}</p>
                 ))}
               </div>
-              <button
-                className="btn-det btn waves-effect"
-                style={{
-                  margin: '15px 25px',
-                  fontSize: '10px',
-                  padding: '0 5px',
-                  width: '80%',
-                }}
-                onClick={this.props.openModal}
-              >
-                Configure Users
-              </button>
+              {this.props.match.params.id !== 'create-project' && (
+                <button
+                  className="btn-det btn waves-effect"
+                  style={{
+                    margin: '15px 25px',
+                    fontSize: '10px',
+                    padding: '0 5px',
+                    width: '80%',
+                  }}
+                  onClick={this.props.openModal}
+                >
+                  Configure Users
+                </button>
+              )}
             </div>
           </div>
         </form>

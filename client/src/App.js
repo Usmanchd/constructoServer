@@ -11,10 +11,12 @@ import SignUpP2 from './components/auth/SignUpP2';
 import { connect } from 'react-redux';
 import * as ROUTES from './constants/routes';
 import ClipLoader from 'react-spinners/ClipLoader';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+toast.configure();
 
 class App extends Component {
   render() {
-
     if (this.props.loading) {
       return (
         <div
@@ -22,7 +24,7 @@ class App extends Component {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            height: '100vh'
+            height: '100vh',
           }}
         >
           <ClipLoader
@@ -52,11 +54,11 @@ class App extends Component {
       );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     loading: state.auth.loading,
     profile: state.firebase.profile,
-    auth: state.firebase.auth
+    auth: state.firebase.auth,
   };
 };
 
