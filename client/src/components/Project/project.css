@@ -246,6 +246,38 @@ textarea:-webkit-autofill:focus {
 .default-list {
   padding: 1px 2px;
 }
+
+.roles-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px;
+}
+
+@media only screen and (max-width: 1300px) {
+  .Modal {
+    position: absolute;
+    top: 60px;
+    left: 135px;
+    right: 135px;
+    bottom: 50px;
+    background-color: #1e1e28;
+    color: white;
+    border: none !important;
+    padding: 30px;
+  }
+  .ModalRoles {
+    position: absolute;
+    top: 70px;
+    left: 155px;
+    right: 155px;
+    bottom: 60px;
+    background-color: #1e1e28;
+    color: white;
+    border: none !important;
+    padding: 30px;
+  }
+}
+
 @media only screen and (max-width: 1000px) {
   /* * {
     font-size: 16px;
@@ -342,6 +374,11 @@ textarea:-webkit-autofill:focus {
     background-color: #1e1e28;
     color: white;
     border: none !important;
-    padding: 30px;
+    padding: 10px;
+  }
+  .roles-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 0px;
   }
 }

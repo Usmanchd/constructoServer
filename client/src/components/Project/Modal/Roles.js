@@ -44,13 +44,7 @@ class Roles extends Component {
   };
   render() {
     return (
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gridGap: '20px',
-        }}
-      >
+      <div className="roles-grid">
         <div>
           <h5 style={{ margin: '0', padding: '0' }}>Users</h5>
           <p style={{ margin: '0 0 4px 0', padding: '0' }}>
@@ -63,7 +57,7 @@ class Roles extends Component {
           >
             Add New
           </button>
-          <div className="users-list" style={{ height: '265px' }}>
+          <div className="users-list" style={{ height: '300px' }}>
             {this.props.options.map((option) => (
               <React.Fragment>
                 <p
@@ -129,7 +123,7 @@ class Roles extends Component {
               </button>
             )}
 
-            <div className="users-list" style={{ height: '265px' }}>
+            <div className="users-list" style={{ height: '300px' }}>
               <React.Fragment>
                 <p className="default-list">
                   Diary
