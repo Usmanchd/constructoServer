@@ -8,20 +8,7 @@ const HandleSubmit = (
   history,
   profile
 ) => {
-  if (
-    state.name === '' ||
-    state.city === '' ||
-    state.street === '' ||
-    state.zip === '' ||
-    state.state === '' ||
-    state.location === '' ||
-    state.projectDescription === '' ||
-    state.createdby === ''
-  ) {
-    alert('Please Fill in All Details');
-
-    return;
-  }
+  
 
   if (match.params.id === 'create-project') {
     let newstate = {

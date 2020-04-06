@@ -29,6 +29,9 @@ import Settings from './Views/Settings';
 import Modal from 'react-modal';
 import Users from './Modal/Users';
 
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 class ProjectDetailsView extends Component {
   state = { ...data };
 
@@ -62,6 +65,20 @@ class ProjectDetailsView extends Component {
   };
 
   handleSubmit = () => {
+    if (
+      this.state.name === '' ||
+      this.state.city === '' ||
+      this.state.street === '' ||
+      this.state.zip === '' ||
+      this.state.state === '' ||
+      this.state.location === '' ||
+      this.state.projectDescription === '' ||
+      this.state.createdby === ''
+    ) {
+      alert('Please Fill in All Details');
+
+      return;
+    }
     HandleSubmit(
       this.state,
       this.props.match,
@@ -95,7 +112,13 @@ class ProjectDetailsView extends Component {
   };
 
   openModal = () => {
-    this.setState({ ...this.state, isOpen: true });
+    let userRole = this.props.project.roles.filter(
+      (role) => role.userID === this.props.profile.ID
+    );
+    console.log(userRole);
+    if (userRole[0].rolesRule === 'WRITE')
+      this.setState({ ...this.state, isOpen: true });
+    else toast.error('You are not Authorized to configure Users !');
   };
 
   // afterOpenModal() {
