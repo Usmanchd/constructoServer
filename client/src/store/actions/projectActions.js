@@ -120,7 +120,7 @@ export const getAllProjects = (ID) => (
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
             let temp = doc.data();
-            console.log(temp);
+          
             let _project = user[0].projects.filter(
               (project) => project === temp.ID
             );
@@ -213,7 +213,7 @@ export const setCurrentProject = (ID, projectID) => async (
   { getFirestore }
 ) => {
   dispatch({ type: 'P_LOADING' });
-  console.log(ID, projectID);
+ 
   const firestore = getFirestore();
   firestore
     .collection('users')
@@ -334,8 +334,7 @@ export const handleAddUser = (userEmail, projectID) => async (
                   let index = _temp.projects.filter(
                     (project) => project === temp.ID
                   );
-                  console.log(_temp);
-                  console.log(index);
+               
                   if (index.length > 0) return;
                   _temp.projects.push(temp.ID);
 
@@ -359,7 +358,7 @@ export const handleRole = (newRole, projectID) => async (
   { getFirestore }
 ) => {
   dispatch({ type: 'P_LOADING' });
-  console.log(newRole, projectID);
+
   const firestore = getFirestore();
 
   firestore
@@ -394,7 +393,7 @@ export const handleUpdateRole = (updatedRole, projectID) => async (
   { getFirestore }
 ) => {
   dispatch({ type: 'P_LOADING' });
-  console.log(updatedRole, projectID, 'update action');
+ 
   const firestore = getFirestore();
 
   firestore
@@ -428,5 +427,172 @@ export const handleUpdateRole = (updatedRole, projectID) => async (
           .then(() => toast.success('Role Updated !', { delay: 1000 }));
       });
       dispatch(getThisProject(projectID));
+    });
+};
+
+export const changeUserRole = (updatedRole, userID, projectID) => async (
+  dispatch,
+  getState,
+  { getFirestore }
+) => {
+  dispatch({ type: 'P_LOADING' });
+  const firestore = getFirestore();
+
+  firestore
+    .collection('projects')
+    .where('ID', '==', projectID)
+    .get()
+    .then(function (querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        let temp = doc.data();
+        const newRoles = temp.roles.map((role) => {
+          if (role.userID === userID) return { ...role, ...updatedRole };
+          else return role;
+        });
+
+        firestore
+          .collection('projects')
+          .doc(doc.id)
+          .update({ roles: newRoles })
+          .then(() => toast.success('User Role Updated !', { delay: 1000 }));
+      });
+      dispatch(getThisProject(projectID));
+    });
+};
+
+export const deleteUserFromProject = (userID, projectID) => async (
+  dispatch,
+  getState,
+  { getFirestore }
+) => {
+  dispatch({ type: 'P_LOADING' });
+
+  const firestore = getFirestore();
+
+  firestore
+    .collection('projects')
+    .where('ID', '==', projectID)
+    .get()
+    .then(function (querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        let temp = doc.data();
+        const newRoles = temp.roles.filter((role) => role.userID !== userID);
+        const newUsers = temp.users.filter((user) => user !== userID);
+    
+        firestore
+          .collection('projects')
+          .doc(doc.id)
+          .update({ roles: newRoles, users: newUsers })
+          .then(() => {
+            firestore
+              .collection('users')
+              .where('ID', '==', userID)
+              .get()
+              .then((querySnapshot) => {
+                querySnapshot.forEach(function (doc) {
+                  let _temp = doc.data();
+                  let newProjects = _temp.projects.filter(
+                    (project) => project !== projectID
+                  );
+
+                  firestore
+                    .collection('users')
+                    .doc(doc.id)
+                    .update({ projects: newProjects })
+                    .then(() => {
+                      dispatch(getThisProject(projectID));
+                      toast.success('User Deleted from Project !', {
+                        delay: 1000,
+                      });
+                    });
+                });
+              });
+          });
+      });
+    });
+};
+
+export const deleteRole = (roleName, projectID) => async (
+  dispatch,
+  getState,
+  { getFirestore }
+) => {
+  dispatch({ type: 'P_LOADING' });
+  const firestore = getFirestore();
+
+  firestore
+    .collection('projects')
+    .where('ID', '==', projectID)
+    .get()
+    .then(function (querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        let temp = doc.data();
+        let newdefinedRoles = temp.definedRoles.filter(
+          (role) => role.roleName !== roleName
+        );
+
+        let newRoles = temp.roles.map((role) => {
+          if (role.roleName === roleName) {
+            return {
+              ...role,
+              createdAt: Date.now(),
+              updatedAt: Date.now(),
+              deleted: false,
+              roleName: 'ORDINARY',
+              projectRule: 'READ',
+              rolesRule: 'READ',
+              diaryRule: 'WRITE',
+              documentationRule: 'WRITE',
+              versionsRule: 'WRITE',
+              signingRule: 'WRITE',
+              admin: false,
+              superAdmin: false,
+            };
+          } else return role;
+        });
+
+        firestore
+          .collection('projects')
+          .doc(doc.id)
+          .update({ roles: newRoles, definedRoles: newdefinedRoles })
+          .then(() => {
+            dispatch(getThisProject(projectID));
+            toast.success('Role Deleted from Project !', {
+              delay: 1000,
+            });
+          });
+      });
+    });
+};
+
+export const deleteEmailFromPenReg = (email, projectID) => async (
+  dispatch,
+  getState,
+  { getFirestore }
+) => {
+  dispatch({ type: 'P_LOADING' });
+
+  const firestore = getFirestore();
+
+  firestore
+    .collection('projects')
+    .where('ID', '==', projectID)
+    .get()
+    .then(function (querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        let temp = doc.data();
+        let newPR = temp.pendingRegistrations.filter((pr) => pr !== email);
+
+        firestore
+          .collection('projects')
+          .doc(doc.id)
+          .update({ pendingRegistrations: newPR })
+          .then(() => {
+            dispatch(getThisProject(projectID));
+            toast.success('User Removed !', {
+              delay: 1000,
+            });
+          });
+      });
     });
 };

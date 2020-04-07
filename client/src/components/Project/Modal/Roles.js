@@ -4,24 +4,33 @@ import { connect } from 'react-redux';
 import {
   handleRole,
   handleUpdateRole,
+  deleteRole,
 } from '../../../store/actions/projectActions';
+
+const rolesArray = [
+  'diaryRule',
+  'documentationRule',
+  'rolesRule',
+  'projectRule',
+];
 
 class Roles extends Component {
   state = { edit: true, showSetting: false, currentRole: {} };
   handleRole = (roleName) => {
-    console.log(this.props.roles, roleName);
     let currentRole = this.props.definedRoles.filter(
       (role) => role.roleName === roleName.value
     );
-    this.setState(
-      {
-        ...this.state,
-        currentRole: currentRole[0],
-        showSetting: true,
-        edit: true,
-      },
-      (s) => console.log(s)
-    );
+    this.setState({
+      ...this.state,
+      currentRole: currentRole[0],
+      showSetting: true,
+      edit: true,
+    });
+  };
+  handleDeleteRole = () => {
+    const { roleName } = this.state.currentRole;
+    if (roleName === 'ADMINISTRATOR' || roleName === 'ORDINARY') return;
+    else this.props.deleteRole(roleName, this.props.projectID);
   };
 
   handleAddNewRole = () => {
@@ -124,258 +133,100 @@ class Roles extends Component {
             )}
 
             <div className="users-list" style={{ height: '300px' }}>
-              <React.Fragment>
-                <p className="default-list">
-                  Diary
-                  <span
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <button
-                      className={
-                        this.state.currentRole.diaryRule === 'READ'
-                          ? 'btn-det-yellow btn waves-effect '
-                          : 'btn-det btn waves-effect'
-                      }
-                      onClick={() => {
-                        this.setState({
-                          ...this.state,
-                          currentRole: {
-                            ...this.state.currentRole,
-                            diaryRule: 'READ',
-                          },
-                        });
-                      }}
+              {rolesArray.map((role) => (
+                <React.Fragment>
+                  <p className="default-list">
+                    {role}
+                    <span
                       style={{
-                        margin: '6px 0',
-                        borderRadius: '5px 0px 0px 5px',
-                        backgroundColor: 'red',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
                       }}
                     >
-                      Read
-                    </button>
-                    <button
-                      className={
-                        this.state.currentRole.diaryRule === 'WRITE'
-                          ? 'btn-det-yellow btn waves-effect'
-                          : 'btn-det btn waves-effect'
-                      }
-                      onClick={() => {
-                        this.setState({
-                          ...this.state,
-                          currentRole: {
-                            ...this.state.currentRole,
-                            diaryRule: 'WRITE',
-                          },
-                        });
-                      }}
-                      style={{
-                        margin: '6px 0',
-                        borderRadius: '0',
-                      }}
-                    >
-                      Write
-                    </button>
-                    <button
-                      className={
-                        this.state.currentRole.diaryRule === 'DISABLE'
-                          ? 'btn-det-yellow btn waves-effect'
-                          : 'btn-det btn waves-effect'
-                      }
-                      onClick={() => {
-                        this.setState({
-                          ...this.state,
-                          currentRole: {
-                            ...this.state.currentRole,
-                            diaryRule: 'DISABLE',
-                          },
-                        });
-                      }}
-                      style={{
-                        margin: '6px 0',
-                        borderRadius: '0px 5px 5px 0px',
-                      }}
-                    >
-                      Disable
-                    </button>
-                  </span>
-                </p>
-                <hr />
-                <p className="default-list">
-                  Documentation
-                  <span
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <button
-                      className={
-                        this.state.currentRole.documentationRule === 'READ'
-                          ? 'btn-det-yellow btn waves-effect'
-                          : 'btn-det btn waves-effect'
-                      }
-                      onClick={() => {
-                        this.setState({
-                          ...this.state,
-                          currentRole: {
-                            ...this.state.currentRole,
-                            documentationRule: 'READ',
-                          },
-                        });
-                      }}
-                      style={{
-                        margin: '6px 0',
-                        borderRadius: '5px 0px 0px 5px',
-                      }}
-                    >
-                      Read
-                    </button>
-                    <button
-                      className={
-                        this.state.currentRole.documentationRule === 'WRITE'
-                          ? 'btn-det-yellow btn waves-effect'
-                          : 'btn-det btn waves-effect'
-                      }
-                      onClick={() => {
-                        this.setState({
-                          ...this.state,
-                          currentRole: {
-                            ...this.state.currentRole,
-                            documentationRule: 'WRITE',
-                          },
-                        });
-                      }}
-                      style={{
-                        margin: '6px 0',
-                        borderRadius: '0',
-                      }}
-                    >
-                      Write
-                    </button>
-                    <button
-                      className={
-                        this.state.currentRole.documentationRule === 'DISABLE'
-                          ? 'btn-det-yellow btn waves-effect'
-                          : 'btn-det btn waves-effect'
-                      }
-                      onClick={() => {
-                        this.setState({
-                          ...this.state,
-                          currentRole: {
-                            ...this.state.currentRole,
-                            documentationRule: 'DISABLE',
-                          },
-                        });
-                      }}
-                      style={{
-                        margin: '6px 0',
-                        borderRadius: '0px 5px 5px 0px',
-                      }}
-                    >
-                      Disable
-                    </button>
-                    {/* {this.state.currentRole.roleName},
-                  {this.state.currentRole.rolesRule},
-                  {this.state.currentRole.projectRule} */}
-                  </span>
-                </p>
-                <hr />
-                <p className="default-list">
-                  Roles
-                  <span
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <button
-                      className={
-                        this.state.currentRole.rolesRule === 'READ'
-                          ? 'btn-det-yellow btn waves-effect '
-                          : 'btn-det btn waves-effect'
-                      }
-                      onClick={() => {
-                        this.setState({
-                          ...this.state,
-                          currentRole: {
-                            ...this.state.currentRole,
-                            rolesRule: 'READ',
-                          },
-                        });
-                      }}
-                      style={{
-                        margin: '6px 0',
-                        borderRadius: '5px 0px 0px 5px',
-                      }}
-                    >
-                      Read
-                    </button>
-                    <button
-                      className={
-                        this.state.currentRole.rolesRule === 'WRITE'
-                          ? 'btn-det-yellow btn waves-effect '
-                          : 'btn-det btn waves-effect'
-                      }
-                      onClick={() => {
-                        this.setState({
-                          ...this.state,
-                          currentRole: {
-                            ...this.state.currentRole,
-                            rolesRule: 'WRITE',
-                          },
-                        });
-                      }}
-                      style={{
-                        margin: '6px 0',
-                        borderRadius: '0',
-                      }}
-                    >
-                      Write
-                    </button>
-                    <button
-                      className={
-                        this.state.currentRole.rolesRule === 'DISABLE'
-                          ? 'btn-det-yellow btn waves-effect '
-                          : 'btn-det btn waves-effect'
-                      }
-                      onClick={() => {
-                        this.setState({
-                          ...this.state,
-                          currentRole: {
-                            ...this.state.currentRole,
-                            rolesRule: 'DISABLE',
-                          },
-                        });
-                      }}
-                      style={{
-                        margin: '6px 0',
-                        borderRadius: '0px 5px 5px 0px',
-                      }}
-                    >
-                      Disable
-                    </button>
-                    {/* {this.state.currentRole.roleName},
-                  {this.state.currentRole.rolesRule},
-                  {this.state.currentRole.projectRule} */}
-                  </span>
-                </p>
-                <hr />
-              </React.Fragment>
+                      <button
+                        className={
+                          this.state.currentRole[role] === 'READ'
+                            ? 'btn-det-yellow btn waves-effect '
+                            : 'btn-det btn waves-effect'
+                        }
+                        onClick={() => {
+                          this.setState({
+                            ...this.state,
+                            currentRole: {
+                              ...this.state.currentRole,
+                              [role]: 'READ',
+                            },
+                          });
+                        }}
+                        style={{
+                          margin: '6px 0',
+                          borderRadius: '5px 0px 0px 5px',
+                          backgroundColor: 'red',
+                        }}
+                      >
+                        Read
+                      </button>
+                      <button
+                        className={
+                          this.state.currentRole[role] === 'WRITE'
+                            ? 'btn-det-yellow btn waves-effect'
+                            : 'btn-det btn waves-effect'
+                        }
+                        onClick={() => {
+                          this.setState({
+                            ...this.state,
+                            currentRole: {
+                              ...this.state.currentRole,
+                              [role]: 'WRITE',
+                            },
+                          });
+                        }}
+                        style={{
+                          margin: '6px 0',
+                          borderRadius: '0',
+                        }}
+                      >
+                        Write
+                      </button>
+                      <button
+                        className={
+                          this.state.currentRole[role] === 'DISABLE'
+                            ? 'btn-det-yellow btn waves-effect'
+                            : 'btn-det btn waves-effect'
+                        }
+                        onClick={() => {
+                          this.setState({
+                            ...this.state,
+                            currentRole: {
+                              ...this.state.currentRole,
+                              [role]: 'DISABLE',
+                            },
+                          });
+                        }}
+                        style={{
+                          margin: '6px 0',
+                          borderRadius: '0px 5px 5px 0px',
+                        }}
+                      >
+                        Disable
+                      </button>
+                    </span>
+                  </p>
+                  <hr />
+                </React.Fragment>
+              ))}
             </div>
-
-            <button
-              className="btn-det btn waves-effect"
-              // onClick={this.props.closeModal}
-              style={{ width: '90%', marginTop: '6px' }}
-            >
-              Delete
-            </button>
+            {this.state.edit && (
+              <button
+                className="btn-det btn waves-effect"
+                // onClick={this.props.closeModal}
+                onClick={this.handleDeleteRole}
+                style={{ width: '90%', marginTop: '6px' }}
+              >
+                Delete
+              </button>
+            )}
           </div>
         )}
       </div>
@@ -383,4 +234,8 @@ class Roles extends Component {
   }
 }
 
-export default connect(null, { handleRole, handleUpdateRole })(Roles);
+export default connect(null, {
+  handleRole,
+  handleUpdateRole,
+  deleteRole,
+})(Roles);

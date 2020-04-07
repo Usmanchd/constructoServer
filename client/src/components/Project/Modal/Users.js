@@ -4,7 +4,12 @@ import Roles from './Roles';
 import { connect } from 'react-redux';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
-import { handleAddUser } from '../../../store/actions/projectActions';
+import {
+  handleAddUser,
+  changeUserRole,
+  deleteUserFromProject,
+  deleteEmailFromPenReg,
+} from '../../../store/actions/projectActions';
 import { Icon } from 'react-icons-kit';
 import { cross } from 'react-icons-kit/icomoon/cross';
 
@@ -29,16 +34,23 @@ class Users extends Component {
   };
 
   // componentDidUpdate = (pervProps) => {
-  //   console.log(pervProps);
   //   if (this.props !== pervProps) {
-  //     console.log('here');
-  //     this.setState({ ...this.state, isOpen: true }, (s) => console.log(s));
-  //   } else return;
+  //     this.setState({
+  //       ...this.state,
+  //       user: this.props.viewUser.map((u) => {
+  //         return {
+  //           uservalue: { ...u },
+  //           selectedOption: this.getRole(u),
+  //         };
+  //       }),
+  //       options: this.getOptions(),
+  //     });
+  //   }
   // };
 
   getRole = (user) => {
     let u = this.props.roles.filter((role) => role.userID === user.ID);
-    console.log(u);
+  
     if (u[0]) return u[0].roleName;
     else return null;
   };
@@ -67,14 +79,26 @@ class Users extends Component {
   //   subtitle.style.color = '#f00';
   // }
   handleChange = (selectedOption, i) => {
+    if (selectedOption.value === this.state.user[i].selectedOption) return;
+
+    let user = this.state.user.map((u, index) => {
+      if (i === index) {
+        return { ...u, selectedOption: selectedOption.value };
+      } else return u;
+    });
+
+    let role = this.props.definedRoles.filter(
+      (role) => role.roleName === selectedOption.value
+    );
+
+    let userID = this.state.user[i].uservalue.ID;
+  
     this.setState({
       ...this.state,
-      user: this.state.user.map((u, index) => {
-        if (i === index) {
-          return { ...u, selectedOption };
-        } else return u;
-      }),
+      user,
     });
+
+    this.props.changeUserRole(role[0], userID, this.props.projectID);
   };
 
   closeModal = () => {
@@ -84,6 +108,10 @@ class Users extends Component {
   addUser = (e) => {
     if (this.state.email === '') return;
     this.props.handleAddUser(this.state.email, this.props.projectID);
+  };
+
+  handleDelete = (ID) => {
+    this.props.deleteUserFromProject(ID, this.props.projectID);
   };
 
   render() {
@@ -179,7 +207,10 @@ class Users extends Component {
                           placeholder="Select an option"
                           className="dropdown"
                         />
-                        <span style={{ color: '#c4302b', marginLeft: '4px' }}>
+                        <span
+                          style={{ color: '#c4302b', marginLeft: '4px' }}
+                          onClick={() => this.handleDelete(v.uservalue.ID)}
+                        >
                           <Icon size={24} icon={cross} />
                         </span>
                       </span>
@@ -198,7 +229,16 @@ class Users extends Component {
                   >
                     <p className="default-list">{pr} (Pending Registation)</p>{' '}
                     <span style={{ color: '#c4302b', marginLeft: '4px' }}>
-                      <Icon size={24} icon={cross} />
+                      <Icon
+                        size={24}
+                        icon={cross}
+                        onClick={() =>
+                          this.props.deleteEmailFromPenReg(
+                            pr,
+                            this.props.projectID
+                          )
+                        }
+                      />
                     </span>
                   </span>
                   <hr />
@@ -233,4 +273,9 @@ class Users extends Component {
   }
 }
 
-export default connect(null, { handleAddUser })(Users);
+export default connect(null, {
+  handleAddUser,
+  changeUserRole,
+  deleteUserFromProject,
+  deleteEmailFromPenReg,
+})(Users);

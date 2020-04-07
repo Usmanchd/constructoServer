@@ -55,7 +55,13 @@ class ProjectDetailsView extends Component {
   };
 
   handleEdit = () => {
-    this.setState({ ...this.state, flag: true });
+    let userRole = this.props.project.roles.filter(
+      (role) => role.userID === this.props.profile.ID
+    );
+
+    if (userRole[0].projectRule === 'WRITE')
+      this.setState({ ...this.state, flag: true });
+    else toast.error('You are not Authorized to Edit Project !');
   };
 
   handleChange = (e) => {
@@ -115,7 +121,7 @@ class ProjectDetailsView extends Component {
     let userRole = this.props.project.roles.filter(
       (role) => role.userID === this.props.profile.ID
     );
-    console.log(userRole);
+   
     if (userRole[0].rolesRule === 'WRITE')
       this.setState({ ...this.state, isOpen: true });
     else toast.error('You are not Authorized to configure Users !');

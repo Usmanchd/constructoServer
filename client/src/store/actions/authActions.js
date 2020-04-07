@@ -1,3 +1,5 @@
+import { handleAddUser } from './projectActions';
+
 export const signIn = (credentials) => {
   return (dispatch, getState, { getFirebase }) => {
     if (
@@ -69,7 +71,32 @@ export const signUp = (newUser) => {
           });
       })
       .then(() => {
-        dispatch({ type: 'SIGNUP_SUCCESS' });
+        firestore
+          .collection('projects')
+          .get()
+          .then((querySnapshot) => {
+            querySnapshot.forEach(function (doc) {
+              let temp = doc.data();
+              let PR = temp.pendingRegistrations.filter(
+                (pr) => pr === newUser.email
+              );
+
+              if (PR.length > 0) {
+                let newPR = temp.pendingRegistrations.filter(
+                  (pr) => pr !== newUser.email
+                );
+
+                firestore
+                  .collection('projects')
+                  .doc(doc.id)
+                  .update({ pendingRegistrations: newPR })
+                  .then(() => {
+                    dispatch(handleAddUser(newUser.email, temp.ID));
+                  });
+              }
+            });
+            dispatch({ type: 'SIGNUP_SUCCESS' });
+          });
       })
       .catch((err) => {
         dispatch({ type: 'SIGNUP_ERROR', payload: err });
