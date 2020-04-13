@@ -102,7 +102,7 @@ class Map extends Component {
     const mapOptions = {
       fullscreenControl: false,
     };
-    if (!this.state.key) return <p>loading</p>;
+    // if (!this.state.key) return <p>loading</p>;
     return (
       <div style={{ height: '280px', width: '100%' }}>
         {this.state.loading || this.state.key === null ? (
@@ -110,7 +110,10 @@ class Map extends Component {
         ) : (
           <GoogleMapReact
             bootstrapURLKeys={{
-              key: this.state.key,
+              key:
+                this.state.key ||
+                process.env.REACT_APP_GOOGLE_MAP_KEY ||
+                'AIzaSyDvqSD7IVx8FkmKJ7kpHyxZzKpJ2HARMBw',
             }}
             defaultCenter={this.state.dcenter}
             center={this.state.center}
