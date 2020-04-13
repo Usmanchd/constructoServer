@@ -5,6 +5,7 @@ import GoogleMapReact from 'google-map-react';
 import { Icon } from 'react-icons-kit';
 import { location } from 'react-icons-kit/icomoon/location';
 import firebase from './config/fbConfig';
+const remoteConfig = firebase.remoteConfig();
 
 const Marker = ({ text }) => (
   <div style={{ width: 24, height: 24, color: 'red' }}>
@@ -18,17 +19,22 @@ const Marker = ({ text }) => (
 
 class Map extends Component {
   componentWillMount = () => {
-    const remoteConfig = firebase.remoteConfig();
-
-    const key = remoteConfig.getValue('GOOGLE_MAP_KEY');
-
-    this.setState({
-      ...this.state,
-      key: key._value
-    });
+    remoteConfig
+      .fetchAndActivate()
+      .then(() => {
+        const key = remoteConfig.getValue('GOOGLE_MAP_KEY');
+        console.log(key);
+        this.setState({
+          ...this.state,
+          key: key._value,
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
-  componentWillReceiveProps = nextProps => {
+  componentWillReceiveProps = (nextProps) => {
     if (
       nextProps.location === '' &&
       (nextProps.lat === '' || nextProps.lng === '')
@@ -40,7 +46,7 @@ class Map extends Component {
         center: { lat: nextProps.lat, lng: nextProps.lng },
         loading: false,
         lat: nextProps.lat,
-        lng: nextProps.lng
+        lng: nextProps.lng,
       });
       return;
     } else if (this.props.location === nextProps.location) {
@@ -49,7 +55,7 @@ class Map extends Component {
         // center: { lat, lng },
         loading: false,
         lat: nextProps.lat,
-        lng: nextProps.lng
+        lng: nextProps.lng,
       });
       return;
     } else {
@@ -58,8 +64,8 @@ class Map extends Component {
       axios({
         method: 'GET',
         url: 'https://open.mapquestapi.com/geocoding/v1/address',
-        params: { key: '8BMAbnYiw1lNi8wGGywrZzYwkoT3SrwT', location: loc }
-      }).then(res => {
+        params: { key: '8BMAbnYiw1lNi8wGGywrZzYwkoT3SrwT', location: loc },
+      }).then((res) => {
         if (res.data.results[0] === undefined) return;
         const { lat, lng } = res.data.results[0].locations[0].latLng;
 
@@ -68,7 +74,7 @@ class Map extends Component {
           center: { lat, lng },
           loading: false,
           lat,
-          lng
+          lng,
         });
       });
     }
@@ -79,24 +85,24 @@ class Map extends Component {
     lat: null,
     center: {
       lng: 74.326297,
-      lat: 31.519582
+      lat: 31.519582,
     },
     dcenter: {
       lng: 74.326297,
-      lat: 31.519582
+      lat: 31.519582,
     },
 
     zoom: 14,
     loading: false,
     key: null,
-    location: ''
+    location: '',
   };
 
   render() {
     const mapOptions = {
-      fullscreenControl: false
+      fullscreenControl: false,
     };
-
+    if (!this.state.key) return <p>loading</p>;
     return (
       <div style={{ height: '280px', width: '100%' }}>
         {this.state.loading || this.state.key === null ? (
@@ -104,9 +110,7 @@ class Map extends Component {
         ) : (
           <GoogleMapReact
             bootstrapURLKeys={{
-              key:
-                process.env.REACT_APP_GOOGLE_MAP_KEY ||
-                'AIzaSyDvqSD7IVx8FkmKJ7kpHyxZzKpJ2HARMBw'
+              key: this.state.key,
             }}
             defaultCenter={this.state.dcenter}
             center={this.state.center}
