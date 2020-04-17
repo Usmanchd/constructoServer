@@ -8,8 +8,6 @@ const HandleSubmit = (
   history,
   profile
 ) => {
-  
-
   if (match.params.id === 'create-project') {
     let newstate = {
       ...state,
@@ -22,6 +20,7 @@ const HandleSubmit = (
       delete newstate.flag;
       delete newstate.viewUser;
       delete newstate.isOpen;
+      console.log(profile);
       createProject(newstate, profile);
       history.push('/list');
     } else {
@@ -43,7 +42,7 @@ const HandleSubmit = (
           }
           if (state.createdby === undefined) newstate.createdby = profile.Name;
 
-          createProject(newstate);
+          createProject(newstate, profile);
           history.push('/list');
         });
     }

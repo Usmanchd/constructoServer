@@ -121,7 +121,7 @@ class ProjectDetailsView extends Component {
     let userRole = this.props.project.roles.filter(
       (role) => role.userID === this.props.profile.ID
     );
-   
+
     if (userRole[0].rolesRule === 'WRITE')
       this.setState({ ...this.state, isOpen: true });
     else toast.error('You are not Authorized to configure Users !');
@@ -138,7 +138,7 @@ class ProjectDetailsView extends Component {
 
   render() {
     const { auth, profile } = this.props;
-
+    
     if (!auth.uid) return <Redirect to="/signin" />;
 
     if (!profile.isEmpty && this.props.match.params.id !== 'create-project') {

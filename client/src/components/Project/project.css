@@ -203,10 +203,10 @@ textarea:-webkit-autofill:focus {
 
 .Modal {
   position: absolute;
-  top: 60px;
+  top: 10vh;
   left: 295px;
   right: 295px;
-  bottom: 50px;
+  bottom: 10vh;
   background-color: #1e1e28;
   color: white;
   border: none !important;
@@ -256,10 +256,10 @@ textarea:-webkit-autofill:focus {
 @media only screen and (max-width: 1300px) {
   .Modal {
     position: absolute;
-    top: 60px;
+    /* top: 60px; */
     left: 135px;
     right: 135px;
-    bottom: 50px;
+    /* bottom: 50px; */
     background-color: #1e1e28;
     color: white;
     border: none !important;
@@ -304,10 +304,10 @@ textarea:-webkit-autofill:focus {
   }
   .Modal {
     position: absolute;
-    top: 60px;
+    /* top: 60px; */
     left: 65px;
     right: 65px;
-    bottom: 50px;
+    /* bottom: 50px; */
     background-color: #1e1e28;
     color: white;
     border: none !important;
@@ -356,10 +356,10 @@ textarea:-webkit-autofill:focus {
   }
   .Modal {
     position: absolute;
-    top: 60px;
+    /* top: 60px; */
     left: 15px;
     right: 15px;
-    bottom: 50px;
+    /* bottom: 50px; */
     background-color: #1e1e28;
     color: white;
     border: none !important;
@@ -370,7 +370,7 @@ textarea:-webkit-autofill:focus {
     top: 70px;
     left: 25px;
     right: 25px;
-    bottom: 60px;
+    /* bottom: 60px; */
     background-color: #1e1e28;
     color: white;
     border: none !important;
