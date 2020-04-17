@@ -23,7 +23,6 @@ class Map extends Component {
       .fetchAndActivate()
       .then(() => {
         const key = remoteConfig.getValue('GOOGLE_MAP_KEY');
-        console.log(key);
         this.setState({
           ...this.state,
           key: key._value,
@@ -111,7 +110,6 @@ class Map extends Component {
           <GoogleMapReact
             bootstrapURLKeys={{
               key:
-                this.state.key ||
                 process.env.REACT_APP_GOOGLE_MAP_KEY ||
                 'AIzaSyDvqSD7IVx8FkmKJ7kpHyxZzKpJ2HARMBw',
             }}
