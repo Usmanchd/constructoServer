@@ -104,7 +104,7 @@ class Map extends Component {
     // if (!this.state.key) return <p>loading</p>;
     return (
       <div style={{ height: '280px', width: '100%' }}>
-        {this.state.loading || this.state.key === null ? (
+        {this.state.loading ? (
           'loading'
         ) : (
           <GoogleMapReact
