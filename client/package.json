@@ -6,29 +6,7 @@
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-scripts build",
-    "test": "react-app-rewired test",
-    "lint-staged": "lint-staged",
-    "prettier": "prettier --write \"src/**/*.{js,jsx,ts,tsx,scss,less}\"",
-    "eslint": "eslint --ext .js,jsx src",
-    "tslint": "tslint \"src/**/*.{ts,tsx}\"",
-    "stylelint": "stylelint \"src/**/*.{scss,less}\""
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint-staged"
-    }
-  },
-  "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx,scss,less}": [
-      "prettier --write",
-      "git add"
-    ],
-    "src/**/*.{js,jsx}": [
-      "eslint"
-    ],
-    "src/**/*.{scss,less}": [
-      "stylelint"
-    ]
+    "test": "react-app-rewired test"
   },
   "dependencies": {
     "@rowno/sparkline": "^4.0.0",
