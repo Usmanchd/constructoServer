@@ -26,7 +26,7 @@ class Register extends Component {
     if (tempEP) return <RegisterForm email={tempEP.email} password={tempEP.password} />
     return (
       <div>
-        <Helmet title="Login" />
+        <Helmet title="Register" />
         <div className={`${styles.title} login-heading`}>
           <h1>
             <strong>WELCOME TO CLEAN UI REACT - REACT REDUX ADMIN TEMPLATE</strong>
@@ -121,4 +121,7 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, { handleTempEP })(Register)
+export default connect(
+  mapStateToProps,
+  { handleTempEP },
+)(Register)
