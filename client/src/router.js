@@ -51,7 +51,7 @@ const routes = [
 class Router extends React.Component {
   render() {
     const { history } = this.props
-    if (process.env.REACT_APP_MAINTENANCE_MODE) return <h2>Maintenance Mode!</h2>
+    if (process.env.REACT_APP_MAINTENANCE_MODE === 'true') return <h2>Maintenance Mode!</h2>
     return (
       <ConnectedRouter history={history}>
         <IndexLayout>
