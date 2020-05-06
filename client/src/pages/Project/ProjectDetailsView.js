@@ -83,7 +83,10 @@ class ProjectDetailsView extends Component {
       this.state.projectDescription === '' ||
       this.state.createdby === ''
     ) {
-      alert('Please Fill in All Details')
+      notification.error({
+        message: 'Input Error',
+        description: 'Please Fill in All Details',
+      })
 
       return
     }
@@ -265,9 +268,12 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, {
-  updateProject,
-  getThisProject,
-  createProject,
-  deleteProject,
-})(ProjectDetailsView)
+export default connect(
+  mapStateToProps,
+  {
+    updateProject,
+    getThisProject,
+    createProject,
+    deleteProject,
+  },
+)(ProjectDetailsView)

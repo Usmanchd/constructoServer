@@ -18,7 +18,7 @@ class Settings extends Component {
               style={{
                 margin: '25px 0 0 0',
                 padding: '0',
-                fontSize: '12px',
+                fontSize: '14px',
               }}
             >
               Created by
@@ -38,7 +38,7 @@ class Settings extends Component {
               style={{
                 margin: '25px 0 0 0',
                 padding: '0',
-                fontSize: '12px',
+                fontSize: '14px',
               }}
             >
               Created at
@@ -59,7 +59,7 @@ class Settings extends Component {
               style={{
                 margin: '25px 0 0 0',
                 padding: '0',
-                fontSize: '12px',
+                fontSize: '14px',
               }}
             >
               Last update
@@ -80,7 +80,7 @@ class Settings extends Component {
               style={{
                 margin: '25px 200px 0 0',
                 padding: '0',
-                fontSize: '12px',
+                fontSize: '14px',
               }}
             >
               Active
@@ -105,7 +105,7 @@ class Settings extends Component {
               style={{
                 margin: '25px 200px 0 0',
                 padding: '0',
-                fontSize: '12px',
+                fontSize: '14px',
               }}
             >
               Archive
@@ -128,7 +128,7 @@ class Settings extends Component {
               style={{
                 margin: '25px 200px 0 0',
                 padding: '0',
-                fontSize: '12px',
+                fontSize: '14px',
               }}
             >
               Delete Project

@@ -15,7 +15,7 @@ class General extends Component {
               style={{
                 margin: '25px 0 0 0',
                 padding: '0',
-                fontSize: '12px',
+                fontSize: '14px',
               }}
             >
               Name
@@ -36,7 +36,7 @@ class General extends Component {
               style={{
                 margin: '25px 0 0 0',
                 padding: '0',
-                fontSize: '12px',
+                fontSize: '14px',
               }}
             >
               Street
@@ -57,7 +57,7 @@ class General extends Component {
               style={{
                 margin: '25px 0 0 0',
                 padding: '0',
-                fontSize: '12px',
+                fontSize: '14px',
               }}
             >
               City
@@ -78,7 +78,7 @@ class General extends Component {
               style={{
                 margin: '25px 0 0 0',
                 padding: '0',
-                fontSize: '12px',
+                fontSize: '14px',
               }}
             >
               Zip
@@ -99,7 +99,7 @@ class General extends Component {
               style={{
                 margin: '25px 0 0 0',
                 padding: '0',
-                fontSize: '12px',
+                fontSize: '14px',
               }}
             >
               State
@@ -120,7 +120,7 @@ class General extends Component {
               style={{
                 margin: '25px 0 0 0',
                 padding: '0',
-                fontSize: '12px',
+                fontSize: '14px',
               }}
             >
               Location
@@ -143,7 +143,7 @@ class General extends Component {
               style={{
                 margin: '25px 0 0 0',
                 padding: '0',
-                fontSize: '12px',
+                fontSize: '14px',
               }}
             >
               Project Description
@@ -159,7 +159,7 @@ class General extends Component {
               onChange={this.props.handleChange}
             />
           </div>
-          <div className="map">
+          <div className={styles.map}>
             <Map
               location={this.props.state.location}
               lat={this.props.state.lat}

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button } from 'antd'
+import { Link } from 'react-router-dom'
 // import { FormattedMessage } from 'react-intl'
 import HomeMenu from './HomeMenu'
 // import ProjectManagement from './ProjectManagement'
@@ -17,9 +18,9 @@ class TopBar extends React.Component {
         <div className="mr-4">{/* <IssuesHistory /> */}</div>
         <div className="mr-4">{/* <ProjectManagement /> */}</div>
         <div className="mr-auto">{/* <LiveSearch /> */}</div>
-        <a href="!#" target="_blank" rel="noopener noreferrer" className="mr-4 d-none d-sm-inline">
+        <Link to="/dashboard/project-details/create-project" className="mr-4 d-none d-sm-inline">
           <Button type="danger">Add New Project</Button>
-        </a>
+        </Link>
         <div className="mr-4">{/* <BitcoinPrice /> */}</div>
         <div className="mr-4">
           <LanguageSelector />

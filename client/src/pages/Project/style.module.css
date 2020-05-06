@@ -102,12 +102,13 @@ hr {
 }
 .detailsGridWrapper .grid {
   /* border: 1px solid #fbd800; */
-  /* background-color: #282832; */
-
+  background-color: #ffffffd5;
+  padding-top: 20px;
   /* border-radius: 15px; */
 }
 .detailsGridWrapper .grid h5 {
   text-align: center;
+  font-size: 20px;
 }
 
 .detForm {
@@ -152,7 +153,7 @@ input[type='password']:not(.browser-default):focus:not([readonly]) + label {
   color: #ec407a !important;
 } */
 /* label {
-  color: white !important;
+  font-size: 26px !important;
 } */
 /* input:-webkit-autofill,
 input:-webkit-autofill:hover,
@@ -208,7 +209,7 @@ textarea:-webkit-autofill:focus {
   left: 295px;
   right: 295px;
   bottom: 10vh;
-  background-color: #e4e4e4;
+  background-color: #ebebeb;
   color: black;
   border: none !important;
   padding: 30px;
@@ -219,7 +220,7 @@ textarea:-webkit-autofill:focus {
   left: 325px;
   right: 325px;
   bottom: 60px;
-  background-color: #e7dcdc;
+  background-color: #ebebeb;
   color: black;
   border: none !important;
   padding: 30px;
@@ -268,7 +269,7 @@ button {
     left: 135px;
     right: 135px;
     /* bottom: 50px; */
-    background-color: #e4e4e4;
+    background-color: #ebebeb;
     color: black;
     border: none !important;
     padding: 30px;
@@ -279,7 +280,7 @@ button {
     left: 155px;
     right: 155px;
     bottom: 60px;
-    background-color: #e4e4e4;
+    background-color: #ebebeb;
     color: black;
     border: none !important;
     padding: 30px;
@@ -316,7 +317,7 @@ button {
     left: 65px;
     right: 65px;
     /* bottom: 50px; */
-    background-color: #e4e4e4;
+    background-color: #ebebeb;
     color: black;
     border: none !important;
     padding: 30px;
@@ -327,7 +328,7 @@ button {
     left: 95px;
     right: 95px;
     bottom: 60px;
-    background-color: #e4e4e4;
+    background-color: #ebebeb;
     color: black;
     border: none !important;
     padding: 30px;
@@ -368,7 +369,7 @@ button {
     left: 15px;
     right: 15px;
     /* bottom: 50px; */
-    background-color: #e4e4e4;
+    background-color: #ebebeb;
     color: black;
     border: none !important;
     padding: 30px;
@@ -379,7 +380,7 @@ button {
     left: 25px;
     right: 25px;
     /* bottom: 60px; */
-    background-color: #e4e4e4;
+    background-color: #ebebeb;
     color: black;
     border: none !important;
     padding: 10px;

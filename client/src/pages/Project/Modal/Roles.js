@@ -55,13 +55,13 @@ class Roles extends Component {
         <div>
           <h5 style={{ margin: '0', padding: '0' }}>Users</h5>
           <p style={{ margin: '0 0 4px 0', padding: '0' }}>Configuration of Roles</p>
-          <button
+          <Button
             className="btn-det btn waves-effect"
             onClick={this.handleAddNewRole}
             style={{ width: '90%', marginBottom: '14px' }}
           >
             Add New
-          </button>
+          </Button>
           <div className={styles.usersList} style={{ height: '300px' }}>
             {this.props.options.map(option => (
               <React.Fragment>
@@ -80,19 +80,19 @@ class Roles extends Component {
               </React.Fragment>
             ))}
           </div>
-          <button
+          <Button
             className="btn-det btn waves-effect"
             onClick={this.props.closeModal}
             style={{ width: '90%', marginTop: '6px' }}
           >
             Close
-          </button>
+          </Button>
         </div>
         {this.state.showSetting && (
           <div>
             <h5 style={{ margin: '0', padding: '0' }}>Roles Settings</h5>
             <p style={{ margin: '0', padding: '0' }}>Setting of Roles</p>
-            <input
+            <Input
               id="roleName"
               // disabled={!this.props.state.flag}
               style={{ fontWeight: 'bolder', width: '60%' }}
@@ -110,13 +110,13 @@ class Roles extends Component {
               }
             />
             {this.state.edit ? (
-              <button className="btn-det btn waves-effect" onClick={this.saveRole}>
+              <Button className="btn-det btn waves-effect" onClick={this.saveRole}>
                 Update
-              </button>
+              </Button>
             ) : (
-              <button className="btn-det btn waves-effect" onClick={this.saveRole}>
+              <Button className="btn-det btn waves-effect" onClick={this.saveRole}>
                 Save
-              </button>
+              </Button>
             )}
 
             <div className={styles.usersList} style={{ height: '300px' }}>
@@ -131,7 +131,7 @@ class Roles extends Component {
                         alignItems: 'center',
                       }}
                     >
-                      <button
+                      <Button
                         className={
                           this.state.currentRole[role] === 'READ'
                             ? 'btn-det-yellow btn waves-effect '
@@ -153,8 +153,8 @@ class Roles extends Component {
                         }}
                       >
                         Read
-                      </button>
-                      <button
+                      </Button>
+                      <Button
                         className={
                           this.state.currentRole[role] === 'WRITE'
                             ? 'btn-det-yellow btn waves-effect'
@@ -175,8 +175,8 @@ class Roles extends Component {
                         }}
                       >
                         Write
-                      </button>
-                      <button
+                      </Button>
+                      <Button
                         className={
                           this.state.currentRole[role] === 'DISABLE'
                             ? 'btn-det-yellow btn waves-effect'
@@ -197,7 +197,7 @@ class Roles extends Component {
                         }}
                       >
                         Disable
-                      </button>
+                      </Button>
                     </span>
                   </p>
                   <hr />
@@ -205,14 +205,14 @@ class Roles extends Component {
               ))}
             </div>
             {this.state.edit && (
-              <button
+              <Button
                 className="btn-det btn waves-effect"
                 // onClick={this.props.closeModal}
                 onClick={this.handleDeleteRole}
                 style={{ width: '90%', marginTop: '6px' }}
               >
                 Delete
-              </button>
+              </Button>
             )}
           </div>
         )}
@@ -221,8 +221,11 @@ class Roles extends Component {
   }
 }
 
-export default connect(null, {
-  handleRole,
-  handleUpdateRole,
-  deleteRole,
-})(Roles)
+export default connect(
+  null,
+  {
+    handleRole,
+    handleUpdateRole,
+    deleteRole,
+  },
+)(Roles)

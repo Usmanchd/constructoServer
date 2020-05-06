@@ -14,7 +14,7 @@ class Management extends Component {
               style={{
                 margin: '25px 0 0 0',
                 padding: '0',
-                fontSize: '12px',
+                fontSize: '14px',
               }}
             >
               Timing
@@ -46,7 +46,7 @@ class Management extends Component {
               style={{
                 margin: '25px 0 0 0',
                 padding: '0',
-                fontSize: '12px',
+                fontSize: '14px',
               }}
             >
               Cloud Space
@@ -80,7 +80,7 @@ class Management extends Component {
               style={{
                 margin: '25px 0 0 0',
                 padding: '0',
-                fontSize: '12px',
+                fontSize: '14px',
               }}
             ></p>
 
@@ -100,7 +100,7 @@ class Management extends Component {
               style={{
                 margin: '25px 0 0 0',
                 padding: '0',
-                fontSize: '12px',
+                fontSize: '14px',
               }}
             >
               Users
@@ -133,7 +133,7 @@ class Management extends Component {
               style={{
                 margin: '25px 0 0 0',
                 padding: '0',
-                fontSize: '12px',
+                fontSize: '14px',
               }}
             ></p>
 
@@ -155,7 +155,7 @@ class Management extends Component {
                   style={{
                     margin: '25px 0 0 0',
                     padding: '0',
-                    fontSize: '12px',
+                    fontSize: '14px',
                   }}
                 >
                   List of Users

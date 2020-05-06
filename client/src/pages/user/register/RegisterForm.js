@@ -5,7 +5,6 @@ import firebase from '../../../config/fbConfig'
 import FileUploader from 'react-firebase-file-uploader'
 import { connect } from 'react-redux'
 import { signUp } from '../../../redux/user/actions'
-import Loader from 'components/LayoutComponents/Loader'
 import styles from './style.module.scss'
 
 // function getBase64(img, callback) {
@@ -236,4 +235,7 @@ class RegisterForm extends Component {
   }
 }
 
-export default connect(null, { signUp })(RegisterForm)
+export default connect(
+  null,
+  { signUp },
+)(RegisterForm)
