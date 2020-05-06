@@ -30,7 +30,7 @@ class ProfileMenu extends React.Component {
       <Menu selectable={false}>
         <Menu.Item>
           <strong>
-            <FormattedMessage id="topBar.profileMenu.hello" />, {user.name || 'Anonymous'}
+            <FormattedMessage id="topBar.profileMenu.hello" />, {user.Name || 'Anonymous'}
           </strong>
           <div>
             <strong className="mr-1">
@@ -92,4 +92,7 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, { signOut })(ProfileMenu)
+export default connect(
+  mapStateToProps,
+  { signOut },
+)(ProfileMenu)
