@@ -83,7 +83,7 @@ class Roles extends Component {
           <Button
             className="btn-det btn waves-effect"
             onClick={this.props.closeModal}
-            style={{ width: '90%', marginTop: '6px' }}
+            style={{ position: 'absolute', bottom: '5px', left: '5px', right: '5px', width: '98%' }}
           >
             Close
           </Button>
@@ -132,11 +132,7 @@ class Roles extends Component {
                       }}
                     >
                       <Button
-                        className={
-                          this.state.currentRole[role] === 'READ'
-                            ? 'btn-det-yellow btn waves-effect '
-                            : 'btn-det btn waves-effect'
-                        }
+                        className={this.state.currentRole[role] === 'READ' && styles.btnYellow}
                         onClick={() => {
                           this.setState({
                             ...this.state,
@@ -149,17 +145,12 @@ class Roles extends Component {
                         style={{
                           margin: '6px 0',
                           borderRadius: '5px 0px 0px 5px',
-                          backgroundColor: 'red',
                         }}
                       >
                         Read
                       </Button>
                       <Button
-                        className={
-                          this.state.currentRole[role] === 'WRITE'
-                            ? 'btn-det-yellow btn waves-effect'
-                            : 'btn-det btn waves-effect'
-                        }
+                        className={this.state.currentRole[role] === 'WRITE' && styles.btnYellow}
                         onClick={() => {
                           this.setState({
                             ...this.state,
@@ -177,11 +168,7 @@ class Roles extends Component {
                         Write
                       </Button>
                       <Button
-                        className={
-                          this.state.currentRole[role] === 'DISABLE'
-                            ? 'btn-det-yellow btn waves-effect'
-                            : 'btn-det btn waves-effect'
-                        }
+                        className={this.state.currentRole[role] === 'DISABLE' && styles.btnYellow}
                         onClick={() => {
                           this.setState({
                             ...this.state,

@@ -265,7 +265,7 @@ export const handleAddUser = (userEmail, projectID) => async (
 
               if (index.length > 0) {
                 notification.error({
-                  message: 'Email already Exists in pending Registrations!',
+                  message: 'Email already Exists',
                 })
                 return
               }
@@ -362,7 +362,6 @@ export const handleUpdateRole = (updatedRole, projectID, index) => async (
       })
     })
     .then(() => {
-      console.log('hello!')
       dispatch(getThisProject(projectID))
       notification.success({ message: 'Role Updated !' })
     })
@@ -473,7 +472,7 @@ export const deleteRole = (roleName, projectID) => async (dispatch, getState, { 
         // );
         let usersids
         let newRoles = temp.roles.filter(role => {
-          usersids = role.usersID
+          if (role.roleName === roleName) usersids = role.usersID
           return role.roleName !== roleName
         })
         console.log(newRoles)

@@ -122,7 +122,7 @@ class Users extends Component {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
-            height: '460px',
+            height: '100%',
           }}
         >
           <span>
@@ -227,7 +227,12 @@ class Users extends Component {
               ))}
             </div>
           </span>
-          <Button onClick={this.props.closeModal}>Close</Button>
+          <Button
+            onClick={this.props.closeModal}
+            style={{ position: 'absolute', bottom: '5px', left: '5px', right: '5px',width:'98%' }}
+          >
+            Close
+          </Button>
         </div>
         <Modal
           isOpen={this.state.isOpen}
@@ -248,9 +253,12 @@ class Users extends Component {
   }
 }
 
-export default connect(null, {
-  handleAddUser,
-  changeUserRole,
-  deleteUserFromProject,
-  deleteEmailFromPenReg,
-})(Users)
+export default connect(
+  null,
+  {
+    handleAddUser,
+    changeUserRole,
+    deleteUserFromProject,
+    deleteEmailFromPenReg,
+  },
+)(Users)

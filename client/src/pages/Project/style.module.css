@@ -21,6 +21,10 @@ hr {
   border-color: #fbd800;
 }
 
+.btnYellow {
+  background-color: #fbd800 !important;
+}
+
 .filter {
   background-color: #ffffff !important;
   border: 0px !important;
@@ -182,7 +186,7 @@ textarea:-webkit-autofill:focus {
   padding: 6px;
 }
 
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
   width: 8px;
 }
 
@@ -193,15 +197,15 @@ textarea:-webkit-autofill:focus {
 }
 
 /* Handle */
-::-webkit-scrollbar-thumb {
+/* ::-webkit-scrollbar-thumb {
   background: #282832;
   border-radius: 10px;
-}
+} */
 
 /* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
+/* ::-webkit-scrollbar-thumb:hover {
   background: rgb(34, 34, 34) 832;
-}
+} */ 
 
 .Modal {
   position: absolute;
