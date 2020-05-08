@@ -1,16 +1,9 @@
 import React, { Component } from 'react'
-
 import data from './Functions/PreDefinedState/State'
-
 import { connect } from 'react-redux'
-
 import { Redirect } from 'react-router-dom'
-
-// import ClipLoader from 'react-spinners/ClipLoader'
 import { notification, Button } from 'antd'
-
 import { Icon } from 'react-icons-kit'
-
 import { arrowLeft2 } from 'react-icons-kit/icomoon/arrowLeft2'
 import Loader from 'components/LayoutComponents/Loader'
 import {
@@ -19,17 +12,13 @@ import {
   createProject,
   deleteProject,
 } from '../../redux/projects/projectActions'
-
 import HandleSubmit from './Functions/HandleSubmit'
 import HandleMarker from './Functions/HandleMarker'
-
 import General from './Views/General'
 import Management from './Views/Management'
 import Settings from './Views/Settings'
-
 import Modal from 'react-modal'
 import Users from './Modal/Users'
-
 import styles from './style.module.css'
 
 // import { toast } from 'react-toastify'

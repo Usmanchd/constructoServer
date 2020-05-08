@@ -18,6 +18,7 @@
   "author": "M Usman",
   "license": "ISC",
   "dependencies": {
+    "concurrently": "^5.2.0",
     "express": "^4.17.1",
     "path": "^0.12.7"
   }
