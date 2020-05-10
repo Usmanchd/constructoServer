@@ -50,7 +50,7 @@ class Login extends Component {
                   <Form layout="vertical" hideRequiredMark onSubmit={this.onSubmit}>
                     <Form.Item label="Email">
                       {form.getFieldDecorator('email', {
-                        initialValue: 'usman@gmail.com',
+                        initialValue: '',
                         rules: [
                           {
                             required: true,
@@ -62,7 +62,7 @@ class Login extends Component {
                     </Form.Item>
                     <Form.Item label="Password">
                       {form.getFieldDecorator('password', {
-                        initialValue: '123456',
+                        initialValue: '',
                         rules: [
                           {
                             required: true,
