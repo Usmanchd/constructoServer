@@ -1,4 +1,6 @@
 import React, { Fragment } from 'react'
+import { Detector } from 'react-detect-offline'
+import { Result } from 'antd'
 import { withRouter, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import NProgress from 'nprogress'
@@ -93,10 +95,31 @@ class IndexLayout extends React.PureComponent {
       return <Container>{children}</Container>
     }
     return (
-      <Fragment>
-        <Helmet titleTemplate="Constructo | %s" title="Home" />
-        {BootstrappedLayout()}
-      </Fragment>
+      <Detector
+        render={({ online }) =>
+          online ? (
+            <Fragment>
+              <Helmet titleTemplate="Constructo | %s" title="Home" />
+              {BootstrappedLayout()}
+            </Fragment>
+          ) : (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100vh',
+              }}
+            >
+              <Result
+                status="500"
+                title="500"
+                subTitle="Sorry, something went wrong. Check your internet connection"
+              />
+            </div>
+          )
+        }
+      />
     )
   }
 }
