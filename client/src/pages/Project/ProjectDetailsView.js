@@ -188,7 +188,7 @@ class ProjectDetailsView extends Component {
               {this.state.name ? (
                 <h4>{`Construction of ${this.state.name}`}</h4>
               ) : (
-                <h4>Projects Details</h4>
+                <h4>Project Details</h4>
               )}
 
               {this.state.flag ? (
