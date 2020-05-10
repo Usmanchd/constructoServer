@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import data from './Functions/PreDefinedState/State'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import { notification, Button } from 'antd'
+import { notification, Button, Modal } from 'antd'
 import { Icon } from 'react-icons-kit'
 import { arrowLeft2 } from 'react-icons-kit/icomoon/arrowLeft2'
 import Loader from 'components/LayoutComponents/Loader'
@@ -17,7 +17,7 @@ import HandleMarker from './Functions/HandleMarker'
 import General from './Views/General'
 import Management from './Views/Management'
 import Settings from './Views/Settings'
-import Modal from 'react-modal'
+// import Modal from 'react-modal'
 import Users from './Modal/Users'
 import styles from './style.module.css'
 
@@ -30,7 +30,7 @@ class ProjectDetailsView extends Component {
   componentDidMount = () => {
     if (this.props.match.params.id === 'create-project')
       this.setState({
-        ...this.state,
+        ...data,
         createdby: this.props.profile.Name,
         flag: true,
         viewUser: [],
@@ -42,8 +42,22 @@ class ProjectDetailsView extends Component {
   }
 
   componentDidUpdate = prevProps => {
-    if (this.props.project === prevProps.project) return
-    this.setState({ ...this.props.project, viewUser: this.props.viewUser })
+    if (
+      this.props.project === prevProps.project &&
+      this.props.match.params.id === prevProps.match.params.id
+    )
+      return
+    if (this.props.match.params.id === 'create-project') {
+      this.setState({
+        ...data,
+        createdby: this.props.profile.Name,
+        flag: true,
+        viewUser: [],
+        pendingRegistrations: [],
+      })
+      return
+    }
+    this.setState({ ...this.props.project, viewUser: this.props.viewUser, flag: false })
   }
 
   handleEdit = () => {
@@ -164,14 +178,11 @@ class ProjectDetailsView extends Component {
             <div className={styles.projectMainHomeNav}>
               <div
                 style={{
-                  position: 'absolute',
-                  top: '70px',
-                  left: '20px',
-                  color: '#fbd800',
+                  color: 'rgb(76, 77, 75)',
                 }}
                 onClick={() => this.props.history.goBack()}
               >
-                <Icon size={54} icon={arrowLeft2} />
+                <Icon size={34} icon={arrowLeft2} />
               </div>
 
               {this.state.name ? (
@@ -225,11 +236,16 @@ class ProjectDetailsView extends Component {
             />
           </div>
           <Modal
-            isOpen={this.state.isOpen}
-            onRequestClose={this.closeModal}
-            className={styles.Modal}
-            overlayClassName="Overlay"
-            shouldCloseOnOverlayClick
+            title={
+              <span>
+                <h5 style={{ margin: '0', padding: '0' }}>Users</h5>
+                <p style={{ margin: '0', padding: '0' }}>Configuration of Users and their Roles</p>
+              </span>
+            }
+            visible={this.state.isOpen}
+            onOk={this.closeModal}
+            onCancel={this.closeModal}
+            width="640px"
           >
             <Users
               closeModal={this.closeModal}

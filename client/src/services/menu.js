@@ -1,10 +1,10 @@
 export async function getLeftMenuData() {
   return [
-    {
-      title: 'Theme Settings',
-      key: 'settings',
-      icon: 'icmn icmn-cog utils__spin-delayed--pseudo-selector',
-    },
+    // {
+    //   title: 'Theme Settings',
+    //   key: 'settings',
+    //   icon: 'icmn icmn-cog utils__spin-delayed--pseudo-selector',
+    // },
     // {
     //   title: 'Documentation',
     //   key: 'documentation',
@@ -12,9 +12,9 @@ export async function getLeftMenuData() {
     //   target: '_blank',
     //   icon: 'icmn icmn-books',
     // },
-    {
-      divider: true,
-    },
+    // {
+    //   divider: true,
+    // },
     {
       title: 'Dashboard',
       key: 'dashboard',
@@ -37,11 +37,11 @@ export async function getLeftMenuData() {
 }
 export async function getTopMenuData() {
   return [
-    {
-      title: 'Theme Settings',
-      key: 'settings',
-      icon: 'icmn icmn-cog utils__spin-delayed--pseudo-selector',
-    },
+    // {
+    //   title: 'Theme Settings',
+    //   key: 'settings',
+    //   icon: 'icmn icmn-cog utils__spin-delayed--pseudo-selector',
+    // },
     // {
     //   title: 'Docs',
     //   key: 'documentation',

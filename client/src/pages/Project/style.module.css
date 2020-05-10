@@ -16,9 +16,10 @@
   background-color: #fdfdfd;
   border-radius: 5px;
   padding: 10px;
+  box-shadow: 0 0 9px #dedede;
 }
 hr {
-  border-color: #fbd800;
+  border-color: #e8e8e8;
 }
 
 .btnYellow {
@@ -109,6 +110,7 @@ hr {
   background-color: #ffffffd5;
   padding-top: 20px;
   /* border-radius: 15px; */
+  box-shadow: 0 0 9px #dedede;
 }
 .detailsGridWrapper .grid h5 {
   text-align: center;
@@ -125,7 +127,7 @@ hr {
   height: 50px;
 }
 .detForm input[type='text'] {
-  padding: 0px;
+  padding: 0px 0 0 10px;
 }
 /* input[type='text'],
 input[type='email'],
@@ -205,7 +207,7 @@ textarea:-webkit-autofill:focus {
 /* Handle on hover */
 /* ::-webkit-scrollbar-thumb:hover {
   background: rgb(34, 34, 34) 832;
-} */ 
+} */
 
 .Modal {
   position: absolute;
@@ -251,6 +253,7 @@ textarea:-webkit-autofill:focus {
 
 .defaultList {
   padding: 1px 2px;
+  cursor: pointer;
 }
 
 .rolesGrid {
@@ -314,6 +317,7 @@ button {
   .detailsGridWrapper .grid {
     height: 900px;
     margin-bottom: 10px;
+    padding: 20px;
   }
   .Modal {
     position: absolute;
@@ -366,6 +370,7 @@ button {
   .detailsGridWrapper .grid {
     height: 900px;
     margin-bottom: 10px;
+    padding: 20px;
   }
   .Modal {
     position: absolute;

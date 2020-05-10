@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import Modal from 'react-modal'
+// import Modal from 'react-modal'
 import Roles from './Roles'
 import { connect } from 'react-redux'
 import Dropdown from 'react-dropdown'
-import { Input, Button } from 'antd'
+import { Input, Button, Modal } from 'antd'
 import styles from '../style.module.css'
 import 'react-dropdown/style.css'
 import {
@@ -15,6 +15,7 @@ import {
 import { Icon } from 'react-icons-kit'
 import { cross } from 'react-icons-kit/icomoon/cross'
 
+const { confirm } = Modal
 // const options = [
 //   { value: 'chocolate', label: 'Chocolate' },
 //   { value: 'strawberry', label: 'Strawberry' },
@@ -110,8 +111,26 @@ class Users extends Component {
     this.props.handleAddUser(this.state.email, this.props.projectID)
   }
 
-  handleDelete = ID => {
-    this.props.deleteUserFromProject(ID, this.props.projectID)
+  handleDelete = (ID, projectID, deleteUser) => {
+    confirm({
+      title: 'Do you want to delete this User?',
+      content: 'When clicked the OK button, User will be deleted from the project!',
+      onOk() {
+        deleteUser(ID, projectID)
+      },
+      onCancel() {},
+    })
+  }
+
+  showConfirm = (pr, projectID, deleteUser) => {
+    confirm({
+      title: 'Do you want to delete this User?',
+      content: 'When clicked the OK button, User will be deleted from the project!',
+      onOk() {
+        deleteUser(pr, projectID)
+      },
+      onCancel() {},
+    })
   }
 
   render() {
@@ -126,8 +145,8 @@ class Users extends Component {
           }}
         >
           <span>
-            <h5 style={{ margin: '0', padding: '0' }}>Users</h5>
-            <p style={{ margin: '0', padding: '0' }}>Configuration of Users and their Roles</p>
+            {/* <h5 style={{ margin: '0', padding: '0' }}>Users</h5>
+            <p style={{ margin: '0', padding: '0' }}>Configuration of Users and their Roles</p> */}
 
             <p
               htmlFor="name"
@@ -194,10 +213,16 @@ class Users extends Component {
                           className="dropdown"
                         />
                         <span
-                          style={{ color: '#c4302b', marginLeft: '4px' }}
-                          onClick={() => this.handleDelete(v.uservalue.ID)}
+                          style={{ color: '#c4302b', marginLeft: '8px' }}
+                          onClick={() =>
+                            this.handleDelete(
+                              v.uservalue.ID,
+                              this.props.projectID,
+                              this.props.deleteUserFromProject,
+                            )
+                          }
                         >
-                          <Icon size={24} icon={cross} />
+                          <Icon size={18} icon={cross} />
                         </span>
                       </span>
                     </p>
@@ -214,11 +239,17 @@ class Users extends Component {
                     }}
                   >
                     <p className={styles.defaultList}>{pr} (Pending Registation)</p>{' '}
-                    <span style={{ color: '#c4302b', marginLeft: '4px' }}>
+                    <span style={{ color: '#c4302b', marginLeft: '8px' }}>
                       <Icon
-                        size={24}
+                        size={18}
                         icon={cross}
-                        onClick={() => this.props.deleteEmailFromPenReg(pr, this.props.projectID)}
+                        onClick={() =>
+                          this.showConfirm(
+                            pr,
+                            this.props.projectID,
+                            this.props.deleteEmailFromPenReg,
+                          )
+                        }
                       />
                     </span>
                   </span>
@@ -227,19 +258,23 @@ class Users extends Component {
               ))}
             </div>
           </span>
-          <Button
+          {/* <Button
             onClick={this.props.closeModal}
             style={{ position: 'absolute', bottom: '5px', left: '5px', right: '5px',width:'98%' }}
           >
             Close
-          </Button>
+          </Button> */}
         </div>
         <Modal
-          isOpen={this.state.isOpen}
-          onRequestClose={this.closeModal}
-          className={styles.ModalRoles}
-          overlayClassName="Overlay"
-          shouldCloseOnOverlayClick
+          title={
+            <span>
+              <h5 style={{ margin: '0', padding: '0' }}>Roles</h5>
+            </span>
+          }
+          visible={this.state.isOpen}
+          onOk={this.closeModal}
+          onCancel={this.closeModal}
+          width="640px"
         >
           <Roles
             roles={this.props.roles}

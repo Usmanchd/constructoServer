@@ -12,7 +12,7 @@ class Management extends Component {
             <p
               htmlFor="name"
               style={{
-                margin: '25px 0 0 0',
+                margin: '25px 0 6px 0',
                 padding: '0',
                 fontSize: '14px',
               }}
@@ -44,7 +44,7 @@ class Management extends Component {
           <div className="input-field">
             <p
               style={{
-                margin: '25px 0 0 0',
+                margin: '25px 0 6px 0',
                 padding: '0',
                 fontSize: '14px',
               }}
@@ -78,7 +78,7 @@ class Management extends Component {
           <div className="input-field">
             <p
               style={{
-                margin: '25px 0 0 0',
+                margin: '25px 0 6px 0',
                 padding: '0',
                 fontSize: '14px',
               }}
@@ -98,7 +98,7 @@ class Management extends Component {
           <div className="input-field">
             <p
               style={{
-                margin: '25px 0 0 0',
+                margin: '25px 0 6px 0',
                 padding: '0',
                 fontSize: '14px',
               }}
@@ -131,7 +131,7 @@ class Management extends Component {
           <div className="input-field">
             <p
               style={{
-                margin: '25px 0 0 0',
+                margin: '25px 0 6px 0',
                 padding: '0',
                 fontSize: '14px',
               }}
@@ -149,17 +149,18 @@ class Management extends Component {
             </Button>
 
             <div>
+              <p
+                htmlFor="name"
+                style={{
+                  margin: '25px 0 6px 0',
+                  padding: '0',
+                  fontSize: '16px',
+                  textAlign: 'center',
+                }}
+              >
+                List of Users
+              </p>
               <div className={styles.usersList}>
-                <p
-                  htmlFor="name"
-                  style={{
-                    margin: '25px 0 0 0',
-                    padding: '0',
-                    fontSize: '14px',
-                  }}
-                >
-                  List of Users
-                </p>
                 {this.props.viewUser.map(v => (
                   <p>{v.Name}</p>
                 ))}

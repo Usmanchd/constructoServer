@@ -80,13 +80,13 @@ class Roles extends Component {
               </React.Fragment>
             ))}
           </div>
-          <Button
+          {/* <Button
             className="btn-det btn waves-effect"
             onClick={this.props.closeModal}
             style={{ position: 'absolute', bottom: '5px', left: '5px', right: '5px', width: '98%' }}
           >
             Close
-          </Button>
+          </Button> */}
         </div>
         {this.state.showSetting && (
           <div>

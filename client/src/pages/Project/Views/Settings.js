@@ -16,7 +16,7 @@ class Settings extends Component {
             <p
               htmlFor="name"
               style={{
-                margin: '25px 0 0 0',
+                margin: '25px 0 6px 0',
                 padding: '0',
                 fontSize: '14px',
               }}
@@ -36,7 +36,7 @@ class Settings extends Component {
           <div className="input-field">
             <p
               style={{
-                margin: '25px 0 0 0',
+                margin: '25px 0 6px 0',
                 padding: '0',
                 fontSize: '14px',
               }}
@@ -57,7 +57,7 @@ class Settings extends Component {
           <div className="input-field">
             <p
               style={{
-                margin: '25px 0 0 0',
+                margin: '25px 0 6px 0',
                 padding: '0',
                 fontSize: '14px',
               }}
