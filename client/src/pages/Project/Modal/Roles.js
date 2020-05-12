@@ -12,7 +12,7 @@ class Roles extends Component {
   handleRole = roleName => {
     let indexOfCurrentRole
     let currentRole = this.props.roles.filter((role, i) => {
-      indexOfCurrentRole = i
+      if (role.roleName === roleName.value) indexOfCurrentRole = i
       return role.roleName === roleName.value
     })
     this.setState({

@@ -17,12 +17,9 @@ import HandleMarker from './Functions/HandleMarker'
 import General from './Views/General'
 import Management from './Views/Management'
 import Settings from './Views/Settings'
-// import Modal from 'react-modal'
 import Users from './Modal/Users'
 import styles from './style.module.css'
 
-// import { toast } from 'react-toastify'
-// import 'react-toastify/dist/ReactToastify.css'
 
 class ProjectDetailsView extends Component {
   state = { ...data }
