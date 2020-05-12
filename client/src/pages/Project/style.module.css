@@ -298,7 +298,7 @@ button {
   /* * {
     font-size: 16px;
   } */
-  .project-main-home {
+  .projectMainHome {
     margin: 0 20px;
   }
   .detailsGridWrapper {
@@ -353,7 +353,7 @@ button {
     height: 35px !important;
     line-height: 0px !important;
   }
-  .project-main-home {
+  .projectMainHome {
     margin: 0;
   }
 
