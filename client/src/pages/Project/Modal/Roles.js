@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Input, Button } from 'antd'
 import styles from '../style.module.css'
-
 import { handleRole, handleUpdateRole, deleteRole } from '../../../redux/projects/projectActions'
 
 const rolesArray = ['diaryRule', 'documentationRule', 'rolesRule', 'projectRule']

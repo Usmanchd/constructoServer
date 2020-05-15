@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-
 import axios from 'axios'
 import GoogleMapReact from 'google-map-react'
 import { Icon } from 'react-icons-kit'
 import { location } from 'react-icons-kit/icomoon/location'
 import firebase from '../../../config/fbConfig'
+
 const remoteConfig = firebase.remoteConfig()
 
 const Marker = ({ text }) => (
@@ -18,6 +18,27 @@ const Marker = ({ text }) => (
 )
 
 class Map extends Component {
+  state = {
+    lng: null,
+    lat: null,
+
+    center: {
+      lng: 74.326297,
+      lat: 31.519582,
+    },
+
+    dcenter: {
+      lng: 74.326297,
+      lat: 31.519582,
+    },
+
+    zoom: 14,
+    loading: false,
+    location: '',
+
+    key: null,
+  }
+
   componentWillMount = () => {
     remoteConfig
       .fetchAndActivate()
@@ -73,24 +94,6 @@ class Map extends Component {
         })
       })
     }
-  }
-
-  state = {
-    lng: null,
-    lat: null,
-    center: {
-      lng: 74.326297,
-      lat: 31.519582,
-    },
-    dcenter: {
-      lng: 74.326297,
-      lat: 31.519582,
-    },
-
-    zoom: 14,
-    loading: false,
-    key: null,
-    location: '',
   }
 
   render() {

@@ -1,14 +1,10 @@
 import React, { Component } from 'react'
-
 import { connect } from 'react-redux'
-
 import { Redirect, Link } from 'react-router-dom'
 import { Button } from 'antd'
 import Loader from 'components/LayoutComponents/Loader'
-
 import { Icon } from 'react-icons-kit'
 import { ic_lens } from 'react-icons-kit/md/ic_lens'
-
 import { getAllProjects, setCurrentProject } from '../../redux/projects/projectActions'
 import styles from './style.module.css'
 
@@ -113,15 +109,17 @@ class ProjectList extends Component {
                   <span>{project.street}</span>
                   <span>{project.city}</span>
                   <span>
-                    <Link to="/">
-                      <Button
-                        onClick={() =>
-                          this.props.setCurrentProject(this.props.profile.ID, project.ID)
-                        }
-                      >
-                        Set
-                      </Button>
-                    </Link>
+                    {this.props.profile.project !== project.ID && (
+                      <Link to="/">
+                        <Button
+                          onClick={() =>
+                            this.props.setCurrentProject(this.props.profile.ID, project.ID)
+                          }
+                        >
+                          Set
+                        </Button>
+                      </Link>
+                    )}
                     <Link to={`/dashboard/project-details/${project.ID}`}>
                       <Button>Detail</Button>
                     </Link>
@@ -145,4 +143,7 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, { getAllProjects, setCurrentProject })(ProjectList)
+export default connect(
+  mapStateToProps,
+  { getAllProjects, setCurrentProject },
+)(ProjectList)

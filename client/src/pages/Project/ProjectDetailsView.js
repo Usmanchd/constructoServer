@@ -20,7 +20,6 @@ import Settings from './Views/Settings'
 import Users from './Modal/Users'
 import styles from './style.module.css'
 
-
 class ProjectDetailsView extends Component {
   state = { ...data }
 
@@ -130,11 +129,6 @@ class ProjectDetailsView extends Component {
     if (userRole[0].rolesRule === 'WRITE') this.setState({ ...this.state, isOpen: true })
     else notification.error({ message: 'You are not Authorized to configure Users !' })
   }
-
-  // afterOpenModal() {
-  //   // references are now sync'd and can be accessed.
-  //   subtitle.style.color = '#f00';
-  // }
 
   closeModal = () => {
     this.setState({ ...this.state, isOpen: false })

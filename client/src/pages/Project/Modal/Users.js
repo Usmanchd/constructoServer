@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-// import Modal from 'react-modal'
 import Roles from './Roles'
 import { connect } from 'react-redux'
 import Dropdown from 'react-dropdown'
@@ -16,11 +15,6 @@ import { Icon } from 'react-icons-kit'
 import { cross } from 'react-icons-kit/icomoon/cross'
 
 const { confirm } = Modal
-// const options = [
-//   { value: 'chocolate', label: 'Chocolate' },
-//   { value: 'strawberry', label: 'Strawberry' },
-//   { value: 'vanilla', label: 'Vanilla' },
-// ];
 
 class Users extends Component {
   componentDidMount = () => {

@@ -161,9 +161,7 @@ class Management extends Component {
                 List of Users
               </p>
               <div className={styles.usersList}>
-                {this.props.viewUser.map(v => (
-                  <p>{v.Name}</p>
-                ))}
+                {this.props.viewUser && this.props.viewUser.map(v => <p>{v.Name}</p>)}
               </div>
               {this.props.match.params.id !== 'create-project' && (
                 <Button

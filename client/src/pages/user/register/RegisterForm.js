@@ -7,31 +7,16 @@ import { connect } from 'react-redux'
 import { signUp } from '../../../redux/user/actions'
 import styles from './style.module.scss'
 
-// function getBase64(img, callback) {
-//   const reader = new FileReader()
-//   reader.addEventListener('load', () => callback(reader.result))
-//   reader.readAsDataURL(img)
-// }
+const avatarURL =
+  'https://firebasestorage.googleapis.com/v0/b/abstract-lane-269917.appspot.com/o/images%2F9f0524f8-059a-4401-9ee0-9057eb3878ed.jpg?alt=media&token=3f63a559-ece2-4bc4-a647-0a3746f14e76'
 
-// function beforeUpload(file) {
-//   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
-//   if (!isJpgOrPng) {
-//     message.error('You can only upload JPG/PNG file!')
-//   }
-//   const isLt2M = file.size / 1024 / 1024 < 2
-//   if (!isLt2M) {
-//     message.error('Image must smaller than 2MB!')
-//   }
-//   return isJpgOrPng && isLt2M
-// }
 @Form.create()
 class RegisterForm extends Component {
   state = {
     isUploading: false,
     progress: 0,
     loading: false,
-    avatarURL:
-      'https://firebasestorage.googleapis.com/v0/b/abstract-lane-269917.appspot.com/o/images%2F906aac0b-6844-4d3b-9f52-a4127b1b5b79.jpg?alt=media&token=423dbb46-43b0-4b43-9953-79a813ab344e',
+    avatarURL,
   }
   onSubmit = event => {
     event.preventDefault()
@@ -98,7 +83,7 @@ class RegisterForm extends Component {
               <div className={styles.inner}>
                 <div className={styles.form}>
                   <h4 className="text-uppercase">
-                    <strong>Please log in</strong>
+                    <strong>Please sign up</strong>
                   </h4>
                   <br />
 
@@ -136,7 +121,7 @@ class RegisterForm extends Component {
                                 message: 'Please input your title',
                               },
                             ],
-                          })(<Input size="default" type="password" />)}
+                          })(<Input size="default" />)}
                         </Form.Item>
                       </Col>
                       <Col span={12}>

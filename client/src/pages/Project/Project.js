@@ -1,15 +1,9 @@
 import React, { Component } from 'react'
-
 import { connect } from 'react-redux'
-
 import { Redirect, Link } from 'react-router-dom'
 import { Button } from 'antd'
-// import ClipLoader from 'react-spinners/ClipLoader'
-
 import { getAllProjects } from '../../redux/projects/projectActions'
-
 import Loader from 'components/LayoutComponents/Loader'
-
 import styles from './style.module.css'
 
 class Project extends Component {
@@ -76,4 +70,7 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, { getAllProjects })(Project)
+export default connect(
+  mapStateToProps,
+  { getAllProjects },
+)(Project)

@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
-// import { logger } from 'redux-logger'
+import { logger } from 'redux-logger'
 import thunk from 'redux-thunk'
 import { routerMiddleware } from 'connected-react-router'
 import { createStore, applyMiddleware, compose } from 'redux'
@@ -33,9 +33,9 @@ const middlewares = [
   sagaMiddleware,
   routeMiddleware,
 ]
-// if (process.env.NODE_ENV === 'development' && true) {
-//   middlewares.push(logger)
-// }
+if (process.env.NODE_ENV === 'development' && true) {
+  middlewares.push(logger)
+}
 const store = createStore(
   reducers(history),
   compose(applyMiddleware(...middlewares), reduxFirestore(firebase)),

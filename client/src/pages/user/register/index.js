@@ -46,7 +46,7 @@ class Register extends Component {
               <div className={styles.inner}>
                 <div className={styles.form}>
                   <h4 className="text-uppercase">
-                    <strong>Please log in</strong>
+                    <strong>Please sign up</strong>
                   </h4>
                   <br />
 
