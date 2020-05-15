@@ -183,9 +183,16 @@ textarea:-webkit-autofill:focus {
 }
 
 .usersList {
-  height: 220px;
+  height: 300px;
   overflow-y: scroll;
   padding: 6px;
+  background-color: #e8e8e82d;
+}
+
+.usersList p {
+  /* border-bottom: 0.5px solid #cacaca; */
+  padding: 4px 8px;
+  margin-top: 4px;
 }
 
 /* ::-webkit-scrollbar {
