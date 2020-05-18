@@ -7,7 +7,9 @@ class Settings extends Component {
     const date = new Date(milisecond)
     return date.toString()
   }
+
   render() {
+    const { state, handleChange, handleActive, match, deleteProject } = this.props
     return (
       <div className={styles.grid}>
         <h5>Settings</h5>
@@ -28,9 +30,9 @@ class Settings extends Component {
               disabled
               style={{ fontWeight: 'bolder' }}
               type="text"
-              value={this.props.state.createdby}
+              value={state.createdby}
               required
-              onChange={this.props.handleChange}
+              onChange={handleChange}
             />
           </div>
           <div className="input-field">
@@ -49,9 +51,9 @@ class Settings extends Component {
               style={{ fontWeight: 'bolder' }}
               type="text"
               id="createdad"
-              value={this.getDate(this.props.state.createdAt)}
+              value={this.getDate(state.createdAt)}
               required
-              onChange={this.props.handleChange}
+              onChange={handleChange}
             />
           </div>
           <div className="input-field">
@@ -70,9 +72,9 @@ class Settings extends Component {
               style={{ fontWeight: 'bolder' }}
               type="text"
               id="lastupdate"
-              value={this.getDate(this.props.state.lastupdate)}
+              value={this.getDate(state.lastupdate)}
               required
-              onChange={this.props.handleChange}
+              onChange={handleChange}
             />
           </div>
           <div className="input-field" style={{ padding: '20px 0' }}>
@@ -85,17 +87,17 @@ class Settings extends Component {
             >
               Active
             </span>
-            <span>{this.props.state.active ? 'Active' : 'Not Active'}</span>
+            <span>{state.active ? 'Active' : 'Not Active'}</span>
             <br />
             <Button
-              disabled={!this.props.state.flag && this.props.match.params.id !== 'create-project'}
+              disabled={!state.flag && match.params.id !== 'create-project'}
               style={{
                 margin: '15px 25px',
                 fontSize: '10px',
                 padding: '0 5px',
                 width: '80%',
               }}
-              onClick={this.props.handleActive}
+              onClick={handleActive}
             >
               Activate/Deactivate
             </Button>
@@ -110,7 +112,7 @@ class Settings extends Component {
             >
               Archive
             </span>
-            <span>{this.props.state.archive ? 'True' : 'False'}</span>
+            <span>{state.archive ? 'True' : 'False'}</span>
             <br />
             <Button
               style={{
@@ -142,7 +144,7 @@ class Settings extends Component {
                 padding: '0 5px',
                 width: '80%',
               }}
-              onClick={this.props.deleteProject}
+              onClick={deleteProject}
             >
               Delete
             </Button>

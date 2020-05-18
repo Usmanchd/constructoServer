@@ -8,9 +8,11 @@ const rolesArray = ['diaryRule', 'documentationRule', 'rolesRule', 'projectRule'
 
 class Roles extends Component {
   state = { edit: true, showSetting: false, currentRole: {}, index: null }
+
   handleRole = roleName => {
+    const { roles } = this.props
     let indexOfCurrentRole
-    let currentRole = this.props.roles.filter((role, i) => {
+    const currentRole = roles.filter((role, i) => {
       if (role.roleName === roleName.value) indexOfCurrentRole = i
       return role.roleName === roleName.value
     })
@@ -22,14 +24,19 @@ class Roles extends Component {
       indexOfCurrentRole,
     })
   }
+
   handleDeleteRole = () => {
-    const { roleName } = this.state.currentRole
+    const {
+      currentRole: { roleName },
+    } = this.state
+    const { deleteRole, projectID } = this.props
     if (roleName === 'ADMINISTRATOR' || roleName === 'ORDINARY') return
-    else this.props.deleteRole(roleName, this.props.projectID)
+    deleteRole(roleName, projectID)
   }
 
   handleAddNewRole = () => {
-    let currentRole = this.props.roles.filter(role => role.roleName === 'ORDINARY')
+    const { roles } = this.props
+    const currentRole = roles.filter(role => role.roleName === 'ORDINARY')
     this.setState({
       ...this.state,
       currentRole: { ...currentRole[0], roleName: 'New Role' },
@@ -39,16 +46,17 @@ class Roles extends Component {
   }
 
   saveRole = () => {
-    if (this.state.currentRole.roleName === undefined) return
-    if (this.state.edit)
-      this.props.handleUpdateRole(
-        this.state.currentRole,
-        this.props.projectID,
-        this.state.indexOfCurrentRole,
-      )
-    else this.props.handleRole(this.state.currentRole, this.props.projectID)
+    const { currentRole, edit, indexOfCurrentRole } = this.state
+    const { handleUpdateRole, projectID, handleRole } = this.props
+
+    if (currentRole.roleName === undefined) return
+    if (edit) handleUpdateRole(currentRole, projectID, indexOfCurrentRole)
+    else handleRole(currentRole, projectID)
   }
+
   render() {
+    const { showSetting, currentRole, edit } = this.state
+    const { options } = this.props
     return (
       <div className={styles.rolesGrid}>
         <div>
@@ -62,7 +70,7 @@ class Roles extends Component {
             Add New
           </Button>
           <div className={styles.usersList} style={{ height: '300px' }}>
-            {this.props.options.map(option => (
+            {options.map(option => (
               <React.Fragment>
                 <p
                   style={{
@@ -81,34 +89,34 @@ class Roles extends Component {
           </div>
           {/* <Button
             className="btn-det btn waves-effect"
-            onClick={this.props.closeModal}
+            onClick={closeModal}
             style={{ position: 'absolute', bottom: '5px', left: '5px', right: '5px', width: '98%' }}
           >
             Close
           </Button> */}
         </div>
-        {this.state.showSetting && (
+        {showSetting && (
           <div>
             <h5 style={{ margin: '0', padding: '0' }}>Roles Settings</h5>
             <p style={{ margin: '0', padding: '0' }}>Setting of Roles</p>
             <Input
               id="roleName"
-              // disabled={!this.props.state.flag}
+              // disabled={!state.flag}
               style={{ fontWeight: 'bolder', width: '60%' }}
               type="text"
-              value={this.state.currentRole.roleName && this.state.currentRole.roleName}
+              value={currentRole.roleName && currentRole.roleName}
               required
               onChange={e =>
                 this.setState({
                   ...this.state,
                   currentRole: {
-                    ...this.state.currentRole,
+                    ...currentRole,
                     roleName: e.target.value,
                   },
                 })
               }
             />
-            {this.state.edit ? (
+            {edit ? (
               <Button className="btn-det btn waves-effect" onClick={this.saveRole}>
                 Update
               </Button>
@@ -131,12 +139,12 @@ class Roles extends Component {
                       }}
                     >
                       <Button
-                        className={this.state.currentRole[role] === 'READ' && styles.btnYellow}
+                        className={currentRole[role] === 'READ' && styles.btnYellow}
                         onClick={() => {
                           this.setState({
                             ...this.state,
                             currentRole: {
-                              ...this.state.currentRole,
+                              ...currentRole,
                               [role]: 'READ',
                             },
                           })
@@ -149,12 +157,12 @@ class Roles extends Component {
                         Read
                       </Button>
                       <Button
-                        className={this.state.currentRole[role] === 'WRITE' && styles.btnYellow}
+                        className={currentRole[role] === 'WRITE' && styles.btnYellow}
                         onClick={() => {
                           this.setState({
                             ...this.state,
                             currentRole: {
-                              ...this.state.currentRole,
+                              ...currentRole,
                               [role]: 'WRITE',
                             },
                           })
@@ -167,12 +175,12 @@ class Roles extends Component {
                         Write
                       </Button>
                       <Button
-                        className={this.state.currentRole[role] === 'DISABLE' && styles.btnYellow}
+                        className={currentRole[role] === 'DISABLE' && styles.btnYellow}
                         onClick={() => {
                           this.setState({
                             ...this.state,
                             currentRole: {
-                              ...this.state.currentRole,
+                              ...currentRole,
                               [role]: 'DISABLE',
                             },
                           })
@@ -190,10 +198,10 @@ class Roles extends Component {
                 </React.Fragment>
               ))}
             </div>
-            {this.state.edit && (
+            {edit && (
               <Button
                 className="btn-det btn waves-effect"
-                // onClick={this.props.closeModal}
+                // onClick={closeModal}
                 onClick={this.handleDeleteRole}
                 style={{ width: '90%', marginTop: '6px' }}
               >

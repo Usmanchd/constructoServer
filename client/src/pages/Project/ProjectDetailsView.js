@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import data from './Functions/PreDefinedState/State'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { notification, Button, Modal } from 'antd'
 import { Icon } from 'react-icons-kit'
 import { arrowLeft2 } from 'react-icons-kit/icomoon/arrowLeft2'
 import Loader from 'components/LayoutComponents/Loader'
+import data from './Functions/PreDefinedState/State'
 import {
   updateProject,
   getThisProject,
@@ -24,42 +24,44 @@ class ProjectDetailsView extends Component {
   state = { ...data }
 
   componentDidMount = () => {
-    if (this.props.match.params.id === 'create-project')
+    const {
+      match: { params },
+      getThisProject,
+      profile: { Name },
+      id,
+    } = this.props
+    if (params.id === 'create-project')
       this.setState({
         ...data,
-        createdby: this.props.profile.Name,
+        createdby: Name,
         flag: true,
         viewUser: [],
         pendingRegistrations: [],
       })
     else {
-      this.props.getThisProject(this.props.id)
+      getThisProject(id)
     }
   }
 
   componentDidUpdate = prevProps => {
-    if (
-      this.props.project === prevProps.project &&
-      this.props.match.params.id === prevProps.match.params.id
-    )
-      return
-    if (this.props.match.params.id === 'create-project') {
+    const { project, match, profile, viewUser } = this.props
+    if (project === prevProps.project && match.params.id === prevProps.match.params.id) return
+    if (match.params.id === 'create-project') {
       this.setState({
         ...data,
-        createdby: this.props.profile.Name,
+        createdby: profile.Name,
         flag: true,
         viewUser: [],
         pendingRegistrations: [],
       })
       return
     }
-    this.setState({ ...this.props.project, viewUser: this.props.viewUser, flag: false })
+    this.setState({ ...project, viewUser, flag: false })
   }
 
   handleEdit = () => {
-    let userRole = this.props.project.roles.filter(role =>
-      role.usersID.includes(this.props.profile.ID),
-    )
+    const { project, profile } = this.props
+    const userRole = project.roles.filter(role => role.usersID.includes(profile.ID))
 
     if (userRole[0].projectRule === 'WRITE') this.setState({ ...this.state, flag: true })
     else notification.error({ message: 'You are not Authorized to Edit Project !' })
@@ -72,15 +74,17 @@ class ProjectDetailsView extends Component {
   }
 
   handleSubmit = () => {
+    const { name, city, street, zip, state, location, projectDescription, createdby } = this.state
+    const { match, createProject, updateProject, history, profile } = this.props
     if (
-      this.state.name === '' ||
-      this.state.city === '' ||
-      this.state.street === '' ||
-      this.state.zip === '' ||
-      this.state.state === '' ||
-      this.state.location === '' ||
-      this.state.projectDescription === '' ||
-      this.state.createdby === ''
+      name === '' ||
+      city === '' ||
+      street === '' ||
+      zip === '' ||
+      state === '' ||
+      location === '' ||
+      projectDescription === '' ||
+      createdby === ''
     ) {
       notification.error({
         message: 'Input Error',
@@ -89,42 +93,38 @@ class ProjectDetailsView extends Component {
 
       return
     }
-    HandleSubmit(
-      this.state,
-      this.props.match,
-      this.props.createProject,
-      this.props.updateProject,
-      this.props.history,
-      this.props.profile,
-    )
+
+    HandleSubmit(this.state, match, createProject, updateProject, history, profile)
 
     this.setState({ flag: false })
   }
 
   handleDeleteProject = () => {
-    if (this.props.match.params.id === 'create-project') return
-    if (this.props.project.userID === this.props.profile.ID) {
-      this.props.deleteProject(this.props.project.ID)
-      this.props.history.push('/list')
+    const { match, project, deleteProject, history, profile } = this.props
+    if (match.params.id === 'create-project') return
+    if (project.userID === profile.ID) {
+      deleteProject(project.ID)
+      history.push('/list')
     }
   }
 
   handleLatLng = e => {
-    this.setState({ ...this.props.state, lat: '', lng: '' })
+    const { state } = this.props
+    this.setState({ ...state, lat: '', lng: '' })
     this.handleChange(e)
   }
 
   handleActive = () => {
+    const { active } = this.state
     this.setState({
       ...this.state,
-      active: !this.state.active,
+      active: !active,
     })
   }
 
   openModal = () => {
-    let userRole = this.props.project.roles.filter(role =>
-      role.usersID.includes(this.props.profile.ID),
-    )
+    const { project, profile } = this.props
+    const userRole = project.roles.filter(role => role.usersID.includes(profile.ID))
 
     if (userRole[0].rolesRule === 'WRITE') this.setState({ ...this.state, isOpen: true })
     else notification.error({ message: 'You are not Authorized to configure Users !' })
@@ -135,12 +135,13 @@ class ProjectDetailsView extends Component {
   }
 
   render() {
-    const { auth, profile } = this.props
+    const { auth, profile, match, id, loading, history, project } = this.props
+    const { name, flag, viewUser, isOpen, pendingRegistrations } = this.state
 
     if (!auth.uid) return <Redirect to="/signin" />
 
-    if (!profile.isEmpty && this.props.match.params.id !== 'create-project') {
-      if (!profile.projects.includes(this.props.id)) return <Redirect to="/dashboard/list" />
+    if (!profile.isEmpty && match.params.id !== 'create-project') {
+      if (!profile.projects.includes(id)) return <Redirect to="/dashboard/list" />
     }
 
     const handleMarker = (lat, lng) => {
@@ -160,96 +161,92 @@ class ProjectDetailsView extends Component {
         .catch(err => console.log(err))
     }
 
-    if (this.props.loading) {
-      return <Loader />
-    } else
-      return (
-        <div>
-          <div className="dashboard container">
-            <div className={styles.projectMainHomeNav}>
-              <div
-                style={{
-                  color: 'rgb(76, 77, 75)',
-                }}
-                onClick={() => this.props.history.goBack()}
-              >
-                <Icon size={34} icon={arrowLeft2} />
-              </div>
+    if (loading) return <Loader />
 
-              {this.state.name ? (
-                <h4>{`Construction of ${this.state.name}`}</h4>
-              ) : (
-                <h4>Project Details</h4>
-              )}
+    return (
+      <div>
+        <div className="dashboard container">
+          <div className={styles.projectMainHomeNav}>
+            <Button
+              style={{
+                color: 'rgb(76, 77, 75)',
+              }}
+              onClick={() => history.goBack()}
+              onKeyPressCapture={() => history.goBack()}
+            >
+              <Icon size={34} icon={arrowLeft2} />
+            </Button>
 
-              {this.state.flag ? (
-                <span>
-                  <Button onClick={this.handleSubmit}>
-                    {this.props.match.params.id === 'create-project' ? 'Save' : 'Update'}
-                  </Button>
-                  {/* <Button
+            {name ? <h4>{`Construction of ${name}`}</h4> : <h4>Project Details</h4>}
+
+            {flag ? (
+              <span>
+                <Button onClick={this.handleSubmit}>
+                  {match.params.id === 'create-project' ? 'Save' : 'Update'}
+                </Button>
+                {/* <Button
                     className="btn-det btn waves-effect"
-                    onClick={() => this.props.getThisProject(this.props.id)}
+                    onClick={() => getThisProject(id)}
                   >
                     Discard Changes
                   </Button> */}
-                </span>
-              ) : (
-                <span>
-                  <Button onClick={this.handleEdit}>Edit</Button>
-                </span>
-              )}
-            </div>
-            <hr />
-          </div>
-
-          <div className={styles.detailsGridWrapper}>
-            <General
-              state={this.state}
-              handleChange={this.handleChange}
-              handleMarker={handleMarker}
-              handleLatLng={this.handleLatLng}
-            />
-
-            <Management
-              state={this.state}
-              handleChange={this.handleChange}
-              viewUser={this.state.viewUser}
-              openModal={this.openModal}
-              match={this.props.match}
-            />
-            <Settings
-              state={this.state}
-              handleChange={this.handleChange}
-              handleActive={this.handleActive}
-              deleteProject={this.props.handleDeleteProject}
-              match={this.props.match}
-            />
-          </div>
-          <Modal
-            title={
-              <span>
-                <h5 style={{ margin: '0', padding: '0' }}>Users</h5>
-                <p style={{ margin: '0', padding: '0' }}>Configuration of Users and their Roles</p>
               </span>
-            }
-            visible={this.state.isOpen}
-            onOk={this.closeModal}
-            onCancel={this.closeModal}
-            width="640px"
-          >
-            <Users
-              closeModal={this.closeModal}
-              viewUser={this.state.viewUser}
-              pendingRegistrations={this.state.pendingRegistrations}
-              userID={this.props.profile.ID}
-              projectID={this.props.project.ID}
-              roles={this.props.project.roles}
-              definedRoles={this.props.project.definedRoles}
-            />
-          </Modal>
+            ) : (
+              <span>
+                <Button onClick={this.handleEdit}>Edit</Button>
+              </span>
+            )}
+          </div>
+          <hr />
         </div>
-      )
+
+        <div className={styles.detailsGridWrapper}>
+          <General
+            state={this.state}
+            handleChange={this.handleChange}
+            handleMarker={handleMarker}
+            handleLatLng={this.handleLatLng}
+          />
+
+          <Management
+            state={this.state}
+            handleChange={this.handleChange}
+            viewUser={viewUser}
+            openModal={this.openModal}
+            match={match}
+          />
+          <Settings
+            state={this.state}
+            handleChange={this.handleChange}
+            handleActive={this.handleActive}
+            deleteProject={this.handleDeleteProject}
+            match={match}
+          />
+        </div>
+        <Modal
+          title={
+            <span>
+              <h5 style={{ margin: '0', padding: '0' }}>Users</h5>
+              <p style={{ margin: '0', padding: '0' }}>Configuration of Users and their Roles</p>
+            </span>
+          }
+          visible={isOpen}
+          onOk={this.closeModal}
+          onCancel={this.closeModal}
+          width="640px"
+        >
+          <Users
+            closeModal={this.closeModal}
+            viewUser={viewUser}
+            pendingRegistrations={pendingRegistrations}
+            userID={profile.ID}
+            projectID={project.ID}
+            roles={project.roles}
+            definedRoles={project.definedRoles}
+          />
+        </Modal>
+      </div>
+    )
   }
 }
 

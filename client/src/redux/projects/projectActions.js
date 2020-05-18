@@ -4,14 +4,14 @@ import { notification } from 'antd'
 // import { toast } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';
 
-export const createProject = (_newProject, { Name, ID }) => async (
+export const createProject = (_newProject, { ID }) => async (
   dispatch,
   getState,
   { getFirestore },
 ) => {
   dispatch({ type: 'P_LOADING' })
   const firestore = getFirestore()
-  let newProject = {
+  const newProject = {
     ..._newProject,
     ID: uuidv4(),
     createdAt: Date.now(),
@@ -72,10 +72,10 @@ export const createProject = (_newProject, { Name, ID }) => async (
     .collection('users')
     .where('ID', '==', newProject.userID)
     .get()
-    .then(function(querySnapshot) {
-      querySnapshot.forEach(function(doc) {
+    .then(querySnapshot => {
+      querySnapshot.forEach(doc => {
         const user = doc.data()
-        let p = user.projects
+        const p = user.projects
         p.push(newProject.ID)
 
         firestore
@@ -91,7 +91,7 @@ export const createProject = (_newProject, { Name, ID }) => async (
 export const getAllProjects = ID => (dispatch, getState, { getFirestore }) => {
   dispatch({ type: 'P_LOADING' })
   const firestore = getFirestore()
-  let projects = []
+  const projects = []
   let project = {}
   let user = []
   firestore
@@ -104,13 +104,13 @@ export const getAllProjects = ID => (dispatch, getState, { getFirestore }) => {
     })
     .then(querySnapshot => {
       querySnapshot.forEach(doc => {
-        let temp = doc.data()
+        const temp = doc.data()
 
-        let _project = user[0].projects.filter(project => project === temp.ID)
+        const pproject = user[0].projects.filter(project => project === temp.ID)
 
-        if (_project.length !== 0) {
+        if (pproject.length !== 0) {
           projects.push(temp)
-          if (user[0].project === _project[0]) project = temp
+          if (user[0].project === pproject[0]) project = temp
         }
       })
       console.log(projects)
@@ -127,21 +127,21 @@ export const getThisProject = ID => async (dispatch, getState, { getFirestore })
     .collection('projects')
     .where('ID', '==', ID)
     .get()
-    .then(_project => {
-      project = _project.docs.map(doc => doc.data())
+    .then(pproject => {
+      project = pproject.docs.map(doc => doc.data())
 
       return firestore.collection('users').get()
     })
     .then(querySnapshot => {
       querySnapshot.forEach(doc => {
-        let temp = doc.data()
-        let newUser = project[0].users.filter(_user => _user === temp.ID)
+        const temp = doc.data()
+        const newUser = project[0].users.filter(_user => _user === temp.ID)
         if (newUser.length !== 0) viewUser = [...viewUser, { ...temp }]
       })
 
       dispatch({
         type: 'GET_THIS_PROJECT',
-        payload: { project: { ...project[0] }, viewUser: viewUser },
+        payload: { project: { ...project[0] }, viewUser },
       })
     })
 }
@@ -153,8 +153,8 @@ export const updateProject = _updateProject => async (dispatch, getState, { getF
     .collection('projects')
     .where('ID', '==', _updateProject.ID)
     .get()
-    .then(function(querySnapshot) {
-      querySnapshot.forEach(function(doc) {
+    .then(querySnapshot => {
+      querySnapshot.forEach(doc => {
         firestore
           .collection('projects')
           .doc(doc.id)
@@ -190,8 +190,8 @@ export const setCurrentProject = (ID, projectID) => async (
     .collection('users')
     .where('ID', '==', ID)
     .get()
-    .then(function(querySnapshot) {
-      querySnapshot.forEach(function(doc) {
+    .then(querySnapshot => {
+      querySnapshot.forEach(doc => {
         firestore
           .collection('users')
           .doc(doc.id)
@@ -213,7 +213,7 @@ export const handleAddUser = (userEmail, projectID) => async (
     .collection('users')
     .where('email', '==', userEmail)
     .get()
-    .then(function(querySnapshot) {
+    .then(querySnapshot => {
       let temp
       if (querySnapshot.docs.length === 0) {
         firestore
@@ -221,22 +221,20 @@ export const handleAddUser = (userEmail, projectID) => async (
           .where('ID', '==', projectID)
           .get()
           .then(querySnapshot => {
-            querySnapshot.forEach(function(doc) {
+            querySnapshot.forEach(doc => {
               temp = doc.data()
-              let index = temp.pendingRegistrations.filter(email => email === userEmail)
+              const index = temp.pendingRegistrations.filter(email => email === userEmail)
 
               if (index.length > 0) {
-                notification.error({
+                return notification.error({
                   message: 'Email already Exists in pending Registrations!',
                 })
-                return
-              } else {
-                temp.pendingRegistrations.push(userEmail)
-                return firestore
-                  .collection('projects')
-                  .doc(doc.id)
-                  .update({ pendingRegistrations: temp.pendingRegistrations })
               }
+              temp.pendingRegistrations.push(userEmail)
+              return firestore
+                .collection('projects')
+                .doc(doc.id)
+                .update({ pendingRegistrations: temp.pendingRegistrations })
             })
           })
           .then(() => {
@@ -247,7 +245,7 @@ export const handleAddUser = (userEmail, projectID) => async (
           })
       } else {
         let user
-        querySnapshot.forEach(function(doc) {
+        querySnapshot.forEach(doc => {
           user = doc.data()
         })
 
@@ -258,10 +256,10 @@ export const handleAddUser = (userEmail, projectID) => async (
           .then(querySnapshot => {
             let temp
 
-            querySnapshot.forEach(function(doc) {
+            querySnapshot.forEach(doc => {
               temp = doc.data()
 
-              let index = temp.users.filter(u => u === user.ID)
+              const index = temp.users.filter(u => u === user.ID)
 
               if (index.length > 0) {
                 notification.error({
@@ -287,17 +285,17 @@ export const handleAddUser = (userEmail, projectID) => async (
               .where('ID', '==', user.ID)
               .get()
               .then(querySnapshot => {
-                querySnapshot.forEach(function(doc) {
-                  let _temp = doc.data()
-                  let index = _temp.projects.filter(project => project === temp.ID)
+                querySnapshot.forEach(doc => {
+                  const ttemp = doc.data()
+                  const index = ttemp.projects.filter(project => project === temp.ID)
 
                   if (index.length > 0) return
-                  _temp.projects.push(temp.ID)
+                  ttemp.projects.push(temp.ID)
 
                   firestore
                     .collection('users')
                     .doc(doc.id)
-                    .update({ projects: _temp.projects })
+                    .update({ projects: ttemp.projects })
                     .then(() => notification.success({ message: 'User Added !' }))
                 })
                 dispatch(getThisProject(projectID))
@@ -317,10 +315,10 @@ export const handleRole = (newRole, projectID) => async (dispatch, getState, { g
     .collection('projects')
     .where('ID', '==', projectID)
     .get()
-    .then(function(querySnapshot) {
-      querySnapshot.forEach(function(doc) {
-        let temp = doc.data()
-        let index = temp.roles.filter(role => role.roleName === newRole.roleName)
+    .then(querySnapshot => {
+      querySnapshot.forEach(doc => {
+        const temp = doc.data()
+        const index = temp.roles.filter(role => role.roleName === newRole.roleName)
         if (index.length > 0) {
           notification.error({ message: 'Role with this Name already exists!' })
           return
@@ -350,9 +348,9 @@ export const handleUpdateRole = (updatedRole, projectID, index) => async (
     .collection('projects')
     .where('ID', '==', projectID)
     .get()
-    .then(function(querySnapshot) {
-      querySnapshot.forEach(function(doc) {
-        let temp = doc.data()
+    .then(querySnapshot => {
+      querySnapshot.forEach(doc => {
+        const temp = doc.data()
         temp.roles[index] = updatedRole
 
         return firestore
@@ -379,9 +377,9 @@ export const changeUserRole = (updatedRole, userID, projectID) => async (
     .collection('projects')
     .where('ID', '==', projectID)
     .get()
-    .then(function(querySnapshot) {
-      querySnapshot.forEach(function(doc) {
-        let temp = doc.data()
+    .then(querySnapshot => {
+      querySnapshot.forEach(doc => {
+        const temp = doc.data()
         temp.roles.forEach(role => {
           if (role.usersID.includes(userID)) {
             role.usersID = role.usersID.filter(id => id !== userID)
@@ -413,14 +411,14 @@ export const deleteUserFromProject = (userID, projectID) => async (
   const firestore = getFirestore()
   let temp
   let newUsers
-  let _temp
+  let ttemp
   let newProjects
   firestore
     .collection('projects')
     .where('ID', '==', projectID)
     .get()
-    .then(function(querySnapshot) {
-      querySnapshot.forEach(function(doc) {
+    .then(querySnapshot => {
+      querySnapshot.forEach(doc => {
         temp = doc.data()
         temp.roles.forEach(role => {
           role.usersID = role.usersID.filter(id => id !== userID)
@@ -440,9 +438,9 @@ export const deleteUserFromProject = (userID, projectID) => async (
         .get()
     })
     .then(querySnapshot => {
-      querySnapshot.forEach(function(doc) {
-        _temp = doc.data()
-        newProjects = _temp.projects.filter(project => project !== projectID)
+      querySnapshot.forEach(doc => {
+        ttemp = doc.data()
+        newProjects = ttemp.projects.filter(project => project !== projectID)
 
         return firestore
           .collection('users')
@@ -464,18 +462,17 @@ export const deleteRole = (roleName, projectID) => async (dispatch, getState, { 
     .collection('projects')
     .where('ID', '==', projectID)
     .get()
-    .then(function(querySnapshot) {
-      querySnapshot.forEach(function(doc) {
-        let temp = doc.data()
+    .then(querySnapshot => {
+      querySnapshot.forEach(doc => {
+        const temp = doc.data()
         // let newdefinedRoles = temp.definedRoles.filter(
         //   (role) => role.roleName !== roleName
         // );
         let usersids
-        let newRoles = temp.roles.filter(role => {
+        const newRoles = temp.roles.filter(role => {
           if (role.roleName === roleName) usersids = role.usersID
           return role.roleName !== roleName
         })
-        console.log(newRoles)
         newRoles.forEach(role => {
           if (role.roleName === 'ORDINARY') role.usersID = [...role.usersID, ...usersids]
         })
@@ -505,10 +502,10 @@ export const deleteEmailFromPenReg = (email, projectID) => async (
     .collection('projects')
     .where('ID', '==', projectID)
     .get()
-    .then(function(querySnapshot) {
-      querySnapshot.forEach(function(doc) {
-        let temp = doc.data()
-        let newPR = temp.pendingRegistrations.filter(pr => pr !== email)
+    .then(querySnapshot => {
+      querySnapshot.forEach(doc => {
+        const temp = doc.data()
+        const newPR = temp.pendingRegistrations.filter(pr => pr !== email)
 
         return firestore
           .collection('projects')

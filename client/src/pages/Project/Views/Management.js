@@ -4,6 +4,7 @@ import styles from '../style.module.css'
 
 class Management extends Component {
   render() {
+    const { state, handleChange, viewUser, match, openModal } = this.props
     return (
       <div className={styles.grid}>
         <h5>Management</h5>
@@ -21,23 +22,23 @@ class Management extends Component {
             </p>
 
             <Input
-              disabled={!this.props.state.flag}
+              disabled={!state.flag}
               type="date"
               id="estimatestart"
               name="trip-start"
-              value={this.props.state.estimatestart}
-              onChange={this.props.handleChange}
+              value={state.estimatestart}
+              onChange={handleChange}
               style={{ fontWeight: 'bolder' }}
             />
           </div>
           <div className="input-field col s12">
             <Input
-              disabled={!this.props.state.flag}
+              disabled={!state.flag}
               type="date"
               id="estimatend"
               name="trip-end"
-              value={this.props.state.estimatend}
-              onChange={this.props.handleChange}
+              value={state.estimatend}
+              onChange={handleChange}
               style={{ fontWeight: 'bolder' }}
             />
           </div>
@@ -57,10 +58,10 @@ class Management extends Component {
               type="text"
               id="spaceUsed"
               placeholder="Used"
-              // value={this.props.state.street}
+              // value={state.street}
               required
               style={{ fontWeight: 'bolder' }}
-              // onChange={this.props.handleChange}
+              // onChange={handleChange}
             />
           </div>
           <div className="input-field">
@@ -70,9 +71,9 @@ class Management extends Component {
               type="text"
               id="spaceLimit"
               placeholder="Available"
-              // value={this.props.state.street}
+              // value={state.street}
               required
-              // onChange={this.props.handleChange}
+              // onChange={handleChange}
             />
           </div>
           <div className="input-field">
@@ -111,9 +112,9 @@ class Management extends Component {
               style={{ fontWeight: 'bolder' }}
               type="text"
               id="userUsed"
-              // value={this.props.state.street}
+              // value={state.street}
               required
-              // onChange={this.props.handleChange}
+              // onChange={handleChange}
             />
           </div>
           <div className="input-field">
@@ -123,9 +124,9 @@ class Management extends Component {
               type="text"
               id="userLimit"
               placeholder="Available"
-              // value={this.props.state.street}
+              // value={state.street}
               required
-              // onChange={this.props.handleChange}
+              // onChange={handleChange}
             />
           </div>
           <div className="input-field">
@@ -161,9 +162,9 @@ class Management extends Component {
                 List of Users
               </p>
               <div className={styles.usersList}>
-                {this.props.viewUser && this.props.viewUser.map(v => <p>{v.Name}</p>)}
+                {viewUser && viewUser.map(v => <p>{v.Name}</p>)}
               </div>
-              {this.props.match.params.id !== 'create-project' && (
+              {match.params.id !== 'create-project' && (
                 <Button
                   style={{
                     margin: '15px 25px',
@@ -171,7 +172,7 @@ class Management extends Component {
                     padding: '0 5px',
                     width: '80%',
                   }}
-                  onClick={this.props.openModal}
+                  onClick={openModal}
                 >
                   Configure Users
                 </Button>

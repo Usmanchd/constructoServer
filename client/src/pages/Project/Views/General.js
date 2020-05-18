@@ -5,6 +5,7 @@ import styles from '../style.module.css'
 
 class General extends Component {
   render() {
+    const { state, handleChange, handleLatLng, handleMarker } = this.props
     return (
       <div className={styles.grid}>
         <h5>General</h5>
@@ -23,12 +24,12 @@ class General extends Component {
             <Input
               size="default"
               id="name"
-              disabled={!this.props.state.flag}
+              disabled={!state.flag}
               style={{ fontWeight: 'bolder' }}
               type="text"
-              value={this.props.state.name}
+              value={state.name}
               required
-              onChange={this.props.handleChange}
+              onChange={handleChange}
             />
           </div>
           <div className="input-field">
@@ -43,13 +44,13 @@ class General extends Component {
             </p>
 
             <Input
-              disabled={!this.props.state.flag}
+              disabled={!state.flag}
               style={{ fontWeight: 'bolder' }}
               type="text"
               id="street"
-              value={this.props.state.street}
+              value={state.street}
               required
-              onChange={this.props.handleChange}
+              onChange={handleChange}
             />
           </div>
           <div className="input-field">
@@ -64,13 +65,13 @@ class General extends Component {
             </p>
 
             <Input
-              disabled={!this.props.state.flag}
+              disabled={!state.flag}
               style={{ fontWeight: 'bolder' }}
               type="text"
               id="city"
-              value={this.props.state.city}
+              value={state.city}
               required
-              onChange={this.props.handleChange}
+              onChange={handleChange}
             />
           </div>
           <div className="input-field">
@@ -85,13 +86,13 @@ class General extends Component {
             </p>
 
             <Input
-              disabled={!this.props.state.flag}
+              disabled={!state.flag}
               style={{ fontWeight: 'bolder' }}
               type="text"
               id="zip"
-              value={this.props.state.zip}
+              value={state.zip}
               required
-              onChange={this.props.handleChange}
+              onChange={handleChange}
             />
           </div>
           <div className="input-field">
@@ -106,13 +107,13 @@ class General extends Component {
             </p>
 
             <Input
-              disabled={!this.props.state.flag}
+              disabled={!state.flag}
               style={{ fontWeight: 'bolder' }}
               type="text"
               id="state"
-              value={this.props.state.state}
+              value={state.state}
               required
-              onChange={this.props.handleChange}
+              onChange={handleChange}
             />
           </div>
           <div className="input-field">
@@ -127,14 +128,14 @@ class General extends Component {
             </p>
 
             <Input
-              disabled={!this.props.state.flag}
+              disabled={!state.flag}
               style={{ fontWeight: 'bolder' }}
               type="text"
               id="location"
-              value={this.props.state.location}
+              value={state.location}
               required
               onChange={e => {
-                this.props.handleLatLng(e)
+                handleLatLng(e)
               }}
             />
           </div>
@@ -150,22 +151,22 @@ class General extends Component {
             </p>
 
             <Input
-              disabled={!this.props.state.flag}
+              disabled={!state.flag}
               style={{ fontWeight: 'bolder' }}
               type="text"
               id="projectDescription"
-              value={this.props.state.projectDescription}
+              value={state.projectDescription}
               required
-              onChange={this.props.handleChange}
+              onChange={handleChange}
             />
           </div>
           <div className={styles.map}>
             <Map
-              location={this.props.state.location}
-              lat={this.props.state.lat}
-              lng={this.props.state.lng}
-              handleMarker={this.props.handleMarker}
-              mode={!this.props.state.flag ? 'view' : 'edit'}
+              location={state.location}
+              lat={state.lat}
+              lng={state.lng}
+              handleMarker={handleMarker}
+              mode={!state.flag ? 'view' : 'edit'}
             />
           </div>
         </form>

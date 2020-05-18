@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import Roles from './Roles'
 import { connect } from 'react-redux'
 import Dropdown from 'react-dropdown'
 import { Input, Button, Modal } from 'antd'
-import styles from '../style.module.css'
+import { Icon } from 'react-icons-kit'
+import { cross } from 'react-icons-kit/icomoon/cross'
 import 'react-dropdown/style.css'
 import {
   handleAddUser,
@@ -11,16 +11,20 @@ import {
   deleteUserFromProject,
   deleteEmailFromPenReg,
 } from '../../../redux/projects/projectActions'
-import { Icon } from 'react-icons-kit'
-import { cross } from 'react-icons-kit/icomoon/cross'
+
+import Roles from './Roles'
+import styles from '../style.module.css'
 
 const { confirm } = Modal
 
 class Users extends Component {
+  state = { isOpen: false, email: '', selectedOption: null, user: [] }
+
   componentDidMount = () => {
+    const { viewUser } = this.props
     this.setState({
       ...this.state,
-      user: this.props.viewUser.map(u => {
+      user: viewUser.map(u => {
         return {
           uservalue: { ...u },
           selectedOption: this.getRole(u),
@@ -34,7 +38,7 @@ class Users extends Component {
   //   if (this.props !== pervProps) {
   //     this.setState({
   //       ...this.state,
-  //       user: this.props.viewUser.map((u) => {
+  //       user: viewUser.map((u) => {
   //         return {
   //           uservalue: { ...u },
   //           selectedOption: this.getRole(u),
@@ -46,17 +50,19 @@ class Users extends Component {
   // };
 
   getRole = user => {
-    let u = this.props.roles.filter(role => role.usersID.includes(user.ID))
+    const { roles } = this.props
+    const u = roles.filter(role => role.usersID.includes(user.ID))
 
     if (u[0]) return u[0].roleName
-    else return null
+    return null
   }
 
   getOptions = () => {
-    let uniqueNames = []
-    this.props.roles.map(role => uniqueNames.push(role.roleName))
+    const { roles } = this.props
+    const uniqueNames = []
+    roles.map(role => uniqueNames.push(role.roleName))
 
-    let option = uniqueNames.map(un => {
+    const option = uniqueNames.map(un => {
       return {
         value: un,
         label: un,
@@ -66,7 +72,6 @@ class Users extends Component {
     return option
   }
 
-  state = { isOpen: false, email: '', selectedOption: null, user: [] }
   openModal = () => {
     this.setState({ ...this.state, isOpen: true })
   }
@@ -76,33 +81,38 @@ class Users extends Component {
   //   subtitle.style.color = '#f00';
   // }
   handleChange = (selectedOption, i) => {
-    if (selectedOption.value === this.state.user[i].selectedOption) return
+    const { user } = this.state
+    const { roles, changeUserRole, projectID } = this.props
+    if (selectedOption.value === user[i].selectedOption) return
 
-    let user = this.state.user.map((u, index) => {
+    const User = user.map((u, index) => {
       if (i === index) {
         return { ...u, selectedOption: selectedOption.value }
-      } else return u
+      }
+      return u
     })
 
-    let role = this.props.roles.filter(role => role.roleName === selectedOption.value)
+    const role = roles.filter(role => role.roleName === selectedOption.value)
 
-    let userID = this.state.user[i].uservalue.ID
+    const userID = user[i].uservalue.ID
 
     this.setState({
       ...this.state,
-      user,
+      user: User,
     })
 
-    this.props.changeUserRole(role[0], userID, this.props.projectID)
+    changeUserRole(role[0], userID, projectID)
   }
 
   closeModal = () => {
     this.setState({ ...this.state, isOpen: false })
   }
 
-  addUser = e => {
-    if (this.state.email === '') return
-    this.props.handleAddUser(this.state.email, this.props.projectID)
+  addUser = () => {
+    const { handleAddUser, projectID } = this.props
+    const { email } = this.state
+    if (email === '') return
+    handleAddUser(email, projectID)
   }
 
   handleDelete = (ID, projectID, deleteUser) => {
@@ -128,6 +138,14 @@ class Users extends Component {
   }
 
   render() {
+    const { email, user, isOpen, options } = this.state
+    const {
+      deleteEmailFromPenReg,
+      deleteUserFromProject,
+      projectID,
+      pendingRegistrations,
+      roles,
+    } = this.props
     return (
       <div>
         <div
@@ -164,10 +182,10 @@ class Users extends Component {
                 <span>
                   <Input
                     id="email"
-                    // disabled={!this.props.state.flag}
+                    // disabled={!state.flag}
                     style={{ fontWeight: 'bolder', width: '60%' }}
                     type="email"
-                    value={this.state.email}
+                    value={email}
                     required
                     onChange={e => this.setState({ ...this.state, email: e.target.value })}
                   />
@@ -180,8 +198,8 @@ class Users extends Component {
               </form>
             </div>
             <div className={styles.usersList} style={{ height: '240px' }}>
-              {this.state.user &&
-                this.state.user.map((v, i) => (
+              {user &&
+                user.map((v, i) => (
                   <React.Fragment>
                     <p
                       style={{
@@ -200,7 +218,7 @@ class Users extends Component {
                         }}
                       >
                         <Dropdown
-                          options={this.state.options && this.state.options}
+                          options={options && options}
                           onChange={selectedOption => this.handleChange(selectedOption, i)}
                           value={v.selectedOption}
                           placeholder="Select an option"
@@ -209,11 +227,7 @@ class Users extends Component {
                         <span
                           style={{ color: '#c4302b', marginLeft: '8px' }}
                           onClick={() =>
-                            this.handleDelete(
-                              v.uservalue.ID,
-                              this.props.projectID,
-                              this.props.deleteUserFromProject,
-                            )
+                            this.handleDelete(v.uservalue.ID, projectID, deleteUserFromProject)
                           }
                         >
                           <Icon size={18} icon={cross} />
@@ -223,7 +237,7 @@ class Users extends Component {
                     <hr />
                   </React.Fragment>
                 ))}
-              {this.props.pendingRegistrations.map(pr => (
+              {pendingRegistrations.map(pr => (
                 <React.Fragment>
                   <span
                     style={{
@@ -237,13 +251,7 @@ class Users extends Component {
                       <Icon
                         size={18}
                         icon={cross}
-                        onClick={() =>
-                          this.showConfirm(
-                            pr,
-                            this.props.projectID,
-                            this.props.deleteEmailFromPenReg,
-                          )
-                        }
+                        onClick={() => this.showConfirm(pr, projectID, deleteEmailFromPenReg)}
                       />
                     </span>
                   </span>
@@ -253,7 +261,7 @@ class Users extends Component {
             </div>
           </span>
           {/* <Button
-            onClick={this.props.closeModal}
+            onClick={closeModal}
             style={{ position: 'absolute', bottom: '5px', left: '5px', right: '5px',width:'98%' }}
           >
             Close
@@ -265,16 +273,16 @@ class Users extends Component {
               <h5 style={{ margin: '0', padding: '0' }}>Roles</h5>
             </span>
           }
-          visible={this.state.isOpen}
+          visible={isOpen}
           onOk={this.closeModal}
           onCancel={this.closeModal}
           width="640px"
         >
           <Roles
-            roles={this.props.roles}
-            options={this.state.options}
+            roles={roles}
+            options={options}
             closeModal={this.closeModal}
-            projectID={this.props.projectID}
+            projectID={projectID}
           />
         </Modal>
       </div>

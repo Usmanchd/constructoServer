@@ -5,10 +5,10 @@ import ProjectDetailsView from './ProjectDetailsView'
 
 class ProjectDetails extends Component {
   render() {
-    const { auth } = this.props
+    const { auth, match } = this.props
     if (!auth.uid) return <Redirect to="/user/login" />
 
-    return <ProjectDetailsView id={this.props.match.params.id} {...this.props} />
+    return <ProjectDetailsView id={match.params.id} {...this.props} />
   }
 }
 

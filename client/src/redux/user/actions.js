@@ -1,5 +1,5 @@
-import { handleAddUser } from '../projects/projectActions'
 import { notification } from 'antd'
+import { handleAddUser } from '../projects/projectActions'
 
 export const signIn = credentials => {
   return (dispatch, getState, { getFirebase }) => {
@@ -82,12 +82,12 @@ export const signUp = newUser => {
         return firestore.collection('projects').get()
       })
       .then(querySnapshot => {
-        querySnapshot.forEach(function(doc) {
-          let temp = doc.data()
-          let PR = temp.pendingRegistrations.filter(pr => pr === newUser.email)
+        querySnapshot.forEach(doc => {
+          const temp = doc.data()
+          const PR = temp.pendingRegistrations.filter(pr => pr === newUser.email)
 
           if (PR.length > 0) {
-            let newPR = temp.pendingRegistrations.filter(pr => pr !== newUser.email)
+            const newPR = temp.pendingRegistrations.filter(pr => pr !== newUser.email)
 
             firestore
               .collection('projects')

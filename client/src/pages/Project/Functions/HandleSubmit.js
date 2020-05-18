@@ -1,15 +1,15 @@
 import axios from 'axios'
 
 const HandleSubmit = async (state, match, createProject, updateProject, history, profile) => {
-  //delete unused keys
+  //  delete unused keys
   delete state.flag
   delete state.viewUser
   delete state.isOpen
 
-  //location uri
+  //  location uri
   const URI = `https://open.mapquestapi.com/geocoding/v1/address?key=8BMAbnYiw1lNi8wGGywrZzYwkoT3SrwT&location=${state.location}`
 
-  //check lat lng
+  //  check lat lng
   if (!state.lat || !state.lng) {
     const res = await axios.get(URI)
 
@@ -18,10 +18,10 @@ const HandleSubmit = async (state, match, createProject, updateProject, history,
     state.lng = lng
   }
 
-  //check createdby
+  //  check createdby
   if (state.createdby === undefined) state.createdby = profile.Name
 
-  //check project is new else update
+  //  check project is new else update
   if (match.params.id === 'create-project') {
     const project = {
       ...state,
