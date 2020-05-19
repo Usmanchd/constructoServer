@@ -30,6 +30,7 @@ class ProjectDetailsView extends Component {
       profile: { Name },
       id,
     } = this.props
+
     if (params.id === 'create-project')
       this.setState({
         ...data,
@@ -45,7 +46,9 @@ class ProjectDetailsView extends Component {
 
   componentDidUpdate = prevProps => {
     const { project, match, profile, viewUser } = this.props
+
     if (project === prevProps.project && match.params.id === prevProps.match.params.id) return
+
     if (match.params.id === 'create-project') {
       this.setState({
         ...data,
@@ -56,11 +59,13 @@ class ProjectDetailsView extends Component {
       })
       return
     }
+
     this.setState({ ...project, viewUser, flag: false })
   }
 
   handleEdit = () => {
     const { project, profile } = this.props
+
     const userRole = project.roles.filter(role => role.usersID.includes(profile.ID))
 
     if (userRole[0].projectRule === 'WRITE') this.setState({ ...this.state, flag: true })
@@ -76,21 +81,14 @@ class ProjectDetailsView extends Component {
   handleSubmit = () => {
     const { name, city, street, zip, state, location, projectDescription, createdby } = this.state
     const { match, createProject, updateProject, history, profile } = this.props
-    if (
-      name === '' ||
-      city === '' ||
-      street === '' ||
-      zip === '' ||
-      state === '' ||
-      location === '' ||
-      projectDescription === '' ||
-      createdby === ''
-    ) {
+    const inputError =
+      !name || !city || !street || !zip || !state || !location || !projectDescription || !createdby
+
+    if (inputError) {
       notification.error({
         message: 'Input Error',
         description: 'Please Fill in All Details',
       })
-
       return
     }
 
@@ -101,7 +99,9 @@ class ProjectDetailsView extends Component {
 
   handleDeleteProject = () => {
     const { match, project, deleteProject, history, profile } = this.props
+
     if (match.params.id === 'create-project') return
+
     if (project.userID === profile.ID) {
       deleteProject(project.ID)
       history.push('/list')
@@ -110,12 +110,14 @@ class ProjectDetailsView extends Component {
 
   handleLatLng = e => {
     const { state } = this.props
+
     this.setState({ ...state, lat: '', lng: '' })
     this.handleChange(e)
   }
 
   handleActive = () => {
     const { active } = this.state
+
     this.setState({
       ...this.state,
       active: !active,
@@ -134,6 +136,23 @@ class ProjectDetailsView extends Component {
     this.setState({ ...this.state, isOpen: false })
   }
 
+  handleMarker = (lat, lng) => {
+    HandleMarker(lat, lng, this.state)
+      .then(data =>
+        this.setState({
+          ...this.state,
+          lng,
+          lat,
+          street: data.street,
+          state: data.adminArea3,
+          zip: data.postalCode,
+          city: data.adminArea5,
+          location: `${data.street} ${data.adminArea5}`,
+        }),
+      )
+      .catch(err => console.log(err))
+  }
+
   render() {
     const { auth, profile, match, id, loading, history, project } = this.props
     const { name, flag, viewUser, isOpen, pendingRegistrations } = this.state
@@ -144,30 +163,13 @@ class ProjectDetailsView extends Component {
       if (!profile.projects.includes(id)) return <Redirect to="/dashboard/list" />
     }
 
-    const handleMarker = (lat, lng) => {
-      HandleMarker(lat, lng, this.state)
-        .then(data =>
-          this.setState({
-            ...this.state,
-            lng,
-            lat,
-            street: data.street,
-            state: data.adminArea3,
-            zip: data.postalCode,
-            city: data.adminArea5,
-            location: `${data.street} ${data.adminArea5}`,
-          }),
-        )
-        .catch(err => console.log(err))
-    }
-
     if (loading) return <Loader />
 
     return (
       <div>
         <div className="dashboard container">
           <div className={styles.projectMainHomeNav}>
-            <Button
+            <div
               style={{
                 color: 'rgb(76, 77, 75)',
               }}
@@ -175,7 +177,7 @@ class ProjectDetailsView extends Component {
               onKeyPressCapture={() => history.goBack()}
             >
               <Icon size={34} icon={arrowLeft2} />
-            </Button>
+            </div>
 
             {name ? <h4>{`Construction of ${name}`}</h4> : <h4>Project Details</h4>}
 
@@ -204,23 +206,23 @@ class ProjectDetailsView extends Component {
           <General
             state={this.state}
             handleChange={this.handleChange}
-            handleMarker={handleMarker}
+            handleMarker={this.handleMarker}
             handleLatLng={this.handleLatLng}
           />
 
           <Management
             state={this.state}
-            handleChange={this.handleChange}
             viewUser={viewUser}
-            openModal={this.openModal}
             match={match}
+            handleChange={this.handleChange}
+            openModal={this.openModal}
           />
           <Settings
             state={this.state}
+            match={match}
             handleChange={this.handleChange}
             handleActive={this.handleActive}
             deleteProject={this.handleDeleteProject}
-            match={match}
           />
         </div>
         <Modal
@@ -236,13 +238,13 @@ class ProjectDetailsView extends Component {
           width="640px"
         >
           <Users
-            closeModal={this.closeModal}
             viewUser={viewUser}
             pendingRegistrations={pendingRegistrations}
             userID={profile.ID}
             projectID={project.ID}
             roles={project.roles}
             definedRoles={project.definedRoles}
+            closeModal={this.closeModal}
           />
         </Modal>
       </div>

@@ -7,10 +7,10 @@ import firebase from '../../../config/fbConfig'
 
 const remoteConfig = firebase.remoteConfig()
 
-const Marker = ({ text }) => (
+const Marker = () => (
   <div style={{ width: 24, height: 24, color: 'red' }}>
     <Icon
-      size={'100%'}
+      size="100%"
       icon={location}
       style={{ position: 'relative', top: '-22px', right: '13px' }}
     />
@@ -56,7 +56,8 @@ class Map extends Component {
 
   componentWillReceiveProps = nextProps => {
     if (nextProps.location === '' && (nextProps.lat === '' || nextProps.lng === '')) return
-    else if (nextProps.lat) {
+
+    if (nextProps.lat) {
       this.setState({
         ...this.state,
         center: { lat: nextProps.lat, lng: nextProps.lng },
@@ -65,7 +66,9 @@ class Map extends Component {
         lng: nextProps.lng,
       })
       return
-    } else if (this.props.location === nextProps.location) {
+    }
+
+    if (this.props.location === nextProps.location) {
       this.setState({
         ...this.state,
         // center: { lat, lng },
@@ -74,26 +77,26 @@ class Map extends Component {
         lng: nextProps.lng,
       })
       return
-    } else {
-      const loc = nextProps.location
-
-      axios({
-        method: 'GET',
-        url: 'https://open.mapquestapi.com/geocoding/v1/address',
-        params: { key: '8BMAbnYiw1lNi8wGGywrZzYwkoT3SrwT', location: loc },
-      }).then(res => {
-        if (res.data.results[0] === undefined) return
-        const { lat, lng } = res.data.results[0].locations[0].latLng
-
-        this.setState({
-          ...this.state,
-          center: { lat, lng },
-          loading: false,
-          lat,
-          lng,
-        })
-      })
     }
+    
+    const loc = nextProps.location
+
+    axios({
+      method: 'GET',
+      url: 'https://open.mapquestapi.com/geocoding/v1/address',
+      params: { key: '8BMAbnYiw1lNi8wGGywrZzYwkoT3SrwT', location: loc },
+    }).then(res => {
+      if (res.data.results[0] === undefined) return
+      const { lat, lng } = res.data.results[0].locations[0].latLng
+
+      this.setState({
+        ...this.state,
+        center: { lat, lng },
+        loading: false,
+        lat,
+        lng,
+      })
+    })
   }
 
   render() {
