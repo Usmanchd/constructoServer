@@ -27,15 +27,15 @@ class Login extends Component {
         <Helmet title="Login" />
         <div className={`${styles.title} login-heading`}>
           <h1>
-            <strong>WELCOME TO CLEAN UI REACT - REACT REDUX ADMIN TEMPLATE</strong>
+            <strong>Constructo</strong>
           </h1>
           <p>
-            Pluggable enterprise-level react application framework.
+            {/* Pluggable enterprise-level react application framework.
             <br />
             An excellent front-end solution for web applications built upon Ant Design and UmiJS.
-            <br />
-            Credentials for testing purposes - <strong>admin@mediatec.org</strong> /{' '}
-            <strong>cleanui</strong>
+            <br /> */}
+            Credentials for testing purposes - <strong>usman@gmail.com</strong> /{' '}
+            <strong>123456</strong>
           </p>
         </div>
         <div className={styles.block}>
@@ -50,7 +50,7 @@ class Login extends Component {
                   <Form layout="vertical" hideRequiredMark onSubmit={this.onSubmit}>
                     <Form.Item label="Email">
                       {form.getFieldDecorator('email', {
-                        initialValue: '',
+                        initialValue: 'usman@gmail.com',
                         rules: [
                           {
                             required: true,
@@ -62,7 +62,7 @@ class Login extends Component {
                     </Form.Item>
                     <Form.Item label="Password">
                       {form.getFieldDecorator('password', {
-                        initialValue: '',
+                        initialValue: '123456',
                         rules: [
                           {
                             required: true,

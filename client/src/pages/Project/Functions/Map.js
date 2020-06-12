@@ -87,8 +87,8 @@ class Map extends Component {
       params: { key: '8BMAbnYiw1lNi8wGGywrZzYwkoT3SrwT', location: loc },
     }).then(res => {
       if (res.data.results[0] === undefined) return
-      const { lat, lng } = res.data.results[0].locations[0].latLng
 
+      const { lat, lng } = res.data.results[0].locations[0].latLng
       this.setState({
         ...this.state,
         center: { lat, lng },

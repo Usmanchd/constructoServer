@@ -81,6 +81,7 @@ class ProjectDetailsView extends Component {
   handleSubmit = () => {
     const { name, city, street, zip, state, location, projectDescription, createdby } = this.state
     const { match, createProject, updateProject, history, profile } = this.props
+
     const inputError =
       !name || !city || !street || !zip || !state || !location || !projectDescription || !createdby
 

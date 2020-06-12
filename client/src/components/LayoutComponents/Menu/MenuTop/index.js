@@ -140,11 +140,11 @@ class MenuTop extends React.Component {
     const { isLightTheme } = this.props
     return (
       <div>
-        <div className={styles.logo}>
+        {/* <div className={styles.logo}>
           <div className={styles.logoContainer}>
             <img src="resources/images/logo-inverse.png" alt="logo" />
           </div>
-        </div>
+        </div> */}
         <Menu
           theme={isLightTheme ? 'light' : 'dark'}
           onClick={this.handleClick}

@@ -46,7 +46,7 @@ class LoginLayout extends React.PureComponent {
             }}
           >
             <div className={styles.header}>
-              <div className={styles.logo}>
+              {/* <div className={styles.logo}>
                 <Link to="/">
                   {!backgroundEnabled && (
                     <img src="resources/images/logo.png" alt="Clean UI React Admin Template" />
@@ -58,7 +58,7 @@ class LoginLayout extends React.PureComponent {
                     />
                   )}
                 </Link>
-              </div>
+              </div> */}
               <div className={styles.controls}>
                 <div className="d-inline-block mr-3">
                   <Button type="default" onClick={this.changeBackground}>
